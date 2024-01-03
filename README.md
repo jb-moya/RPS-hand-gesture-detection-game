@@ -1,3 +1,10 @@
+# React Eel GUI App
+
+## Install
+
+You’ll need to have Python >= 3.6, Eel, pyinstaller.
+
+```
 $ python3 -m pip install eel
 $ python3 -m pip install pyinstaller
 ```
@@ -10,6 +17,7 @@ $ yarn start
 ```
 
 ## Build as GUI App
+
 ```
 $ yarn build
 ```
