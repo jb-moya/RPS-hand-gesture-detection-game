@@ -9,7 +9,7 @@ const Button = ({ image, classes_img = "", classes_text = "", text = "", onClick
     volume: 0.25,
   });
   const [playHoverSound] = useSound(hoverSound, {
-    volume: 0.25,
+    volume: 0.20,
   });
 
   return <div className="button_container">
