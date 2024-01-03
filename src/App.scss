@@ -141,7 +141,11 @@ body {
 
 .App {
   position: relative;
-  
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  // justify-content:space-evenly;
+
   &.overlay {
     position: relative;
     
@@ -481,6 +485,7 @@ body {
   @include first_appear_animation('up', 500px);
   margin: 35px 0 0 0;
   height: 115px;
+  margin-top: auto;
   display: flex;
   justify-content: center;
   align-items: center;

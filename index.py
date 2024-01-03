@@ -59,6 +59,15 @@ def detect(encoded_img, width, height):
 
 if __name__ == '__main__':
     if sys.argv[1] == '--develop':
+        # if you get an error like this:
+        # 'python3' is not recognized as an internal or external command
+        # or something along those open package.json and change the start script from this:
+        # "start:eel": "python3 index.py --develop"
+        # to any of these:
+        # "start:eel": "python index.py --develop"
+        # "start:eel": "python2 index.py --develop"
+        # "start:eel": "py index.py --develop"
+      
         eel.init('client')
         print("Running in development mode")
         eel.start({"port": 3000}, host="localhost", port=8888, mode='chrome-app', cmdline_args=['--start-fullscreen', '--app'])

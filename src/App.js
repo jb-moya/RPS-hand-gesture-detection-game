@@ -58,6 +58,8 @@ const App = () => {
     } else {
       setCharacter(character + 1);
     }
+
+    console.log("currecnt character selected: " + character)
   }
 
   const mainMenu = {
@@ -93,7 +95,7 @@ const App = () => {
           </div>
         </>
        ) : (
-        <OnGame mainFunction={mainMenu} difficultySelected={difficulty} eel={eel}/>
+        <OnGame mainFunction={mainMenu} characterSelectedMain={character} difficultySelected={difficulty} eel={eel}/>
         )}
 
     </>

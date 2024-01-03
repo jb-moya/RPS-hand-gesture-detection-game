@@ -26,10 +26,13 @@ import Pause from "./Pause.js";
 
 import Button from "./Button.js";
 
-const OnGame = ({ mainFunction, difficultySelected, eel }) => {
+const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }) => {
   const weight = 640;
   const height = 480;
-  const enable_video_inference = false;
+  const enable_video_inference = false; 
+
+  let character = characterSelectedMain;
+  console.log("characterSelectedMain: " + characterSelectedMain)
 
   const payoffMatrix = {
     rock: { rock: 0, paper: -1, scissors: 1, },
@@ -41,13 +44,11 @@ const OnGame = ({ mainFunction, difficultySelected, eel }) => {
   const [scores, setScores] = useState([0, 0]); // [player, ai
   const [gameStart, setGameStart] = useState(false);
   const difficulty = difficultySelected;
-  // const difficulty = "easy";
   const [counter, setCounter] = useState(0);
   const [isDetectOn, setIsDetectOn] = useState(true);
   const [playerAttack, setPlayerAttack] = useState('');
   const choices = ['rock', 'paper', 'scissors'];
 
-  const [characterSelected, setCharacterSelected] = useState('rock');
   const [isPaused, setIsPaused] = useState(false);
 
   const [confThreshSelected, setConfThreshSelected] = useState(0.6);
@@ -56,8 +57,8 @@ const OnGame = ({ mainFunction, difficultySelected, eel }) => {
   const payoffImage = [youWin, youLose, draw];
   const handImage = [handIdle, handRock, handPaper, handScissors];
   const [aiAttack, setAiAttack] = useState(0);
-  const countdownSpeedMS = 500; //default 1000
-  const roundCooldownMS = 1000; //default 2000
+  const countdownSpeedMS = 200; //default 1000
+  const roundCooldownMS = 500; //default 2000
   const gameStartDelay = 1000;
 
   const randomMovement = 'transform 800ms cubic-bezier( 0.79, 0.33, 0.14, 0.53 )';
@@ -248,7 +249,7 @@ const OnGame = ({ mainFunction, difficultySelected, eel }) => {
   useEffect(() => {
     if (playerAttack === '') { return; }
 
-    console.log("playerAttac: " + playerAttack)
+    // console.log("playerAttac: " + playerAttack)
     setPlayerAttackHistory((prevPlayerAttackHistory) => [...prevPlayerAttackHistory, playerAttack]);
   }, [playerAttack]);
 
@@ -256,14 +257,17 @@ const OnGame = ({ mainFunction, difficultySelected, eel }) => {
     console.log("playerAttackHistory: " + playerAttackHistory[0])
     console.log("playerAttackHistory: " + playerAttackHistory[1])
 
-    let AiAttackProbabilities = adaptAiAttack(playerAttackHistory);
-
-    let randomAiAttack = choices[weightedRandom(AiAttackProbabilities)];
+    let randomAiAttack;
+    if (difficulty === 'hard') {
+      let AiAttackProbabilities = adaptAiAttack(playerAttackHistory);
+      randomAiAttack = choices[weightedRandom(AiAttackProbabilities)];
+    }
+    else {
+      // equal chance
+      randomAiAttack = choices[Math.floor(Math.random() * choices.length)];
+    }
 
     setAiAttack(choices.indexOf(randomAiAttack) + 1);
-
-    console.log(`Player attack: ${playerAttack}`);
-    console.log(`AI attack: ${randomAiAttack}`);
   }, [playerAttackHistory]);
 
   useEffect(() => {
@@ -272,7 +276,11 @@ const OnGame = ({ mainFunction, difficultySelected, eel }) => {
     let payoff = getPayoff(playerAttack, choices[aiAttack - 1]);
 
     if (payoff === 1) {
-      if (playerAttack === characterSelected) {
+      console.log("NANALO")
+      console.log("playerAttack: " + playerAttack)
+      console.log("characterSelected: " + choices[character])
+
+      if (playerAttack === choices[character]) {
         setScores((prevScores) => [prevScores[0] + 2, prevScores[1]]);
       }
       else {
