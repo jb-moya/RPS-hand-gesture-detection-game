@@ -11,16 +11,51 @@ import mainTitle from './assets/new_png/main_title.png';
 import characterPaper from './assets/new_png/char_paper_128.png';
 import characterRock from './assets/new_png/char_rock_128.png';
 import characterScissors from './assets/new_png/char_scissors_128.png';
+import { useGlobalAudioPlayer } from 'react-use-audio-player';
+
+import mainMenuMusic from './assets/audio/music_1.mp3';
+import onGameMusic from './assets/audio/music_2.mp3';
 
 const App = () => {
   const { cursorPosition } = useContext(CursorPositionContext);
   const [mainMenuActive, setMainMenuActive] = useState(true);
   const [difficulty, setDifficulty] = useState('easy');
   const [character, setCharacter] = useState(0);
-  const characters = [characterPaper, characterRock, characterScissors];
+  const characters = [characterRock, characterPaper, characterScissors];
+  const { load, play, fade, seek } = useGlobalAudioPlayer();
+  
+  const songs = [mainMenuMusic, onGameMusic];
+  const [songIndex, setSongIndex] = useState(0);
 
   const eel = window["eel"];
   eel.set_host("ws://localhost:8888");
+  
+
+  const playBGMusic = () => {
+    const music = load(songs[songIndex], {
+      volume: 0.25,
+      loop: true,
+    });
+
+    // seek at random position
+    const randomPosition = Math.floor(Math.random() * 100);
+    seek(randomPosition);
+
+    play(music);
+    fade(0, .25, 1000);
+  }
+  
+  useEffect(() => {
+    playBGMusic();
+  }, [songIndex]);
+
+  const changeSong = () => {
+    if (songIndex == 0) {
+      setSongIndex(1);
+    } else {
+      setSongIndex(0);
+    }
+  }
 
   useEffect(() => {
     const backgroundGIFContainer = document.querySelector('.background-container');
@@ -42,6 +77,7 @@ const App = () => {
   
   const toggleMainMenu = () => {
     setMainMenuActive(!mainMenuActive);
+    changeSong();
   }
 
   const toggleDifficulty = () => {
@@ -84,10 +120,10 @@ const App = () => {
               />
               <div className="character_info">
                 <span className="value">Name:</span>
-                <span>{character == 0 ? "Origami" : character == 1 ? "Caelus" : "Trim"}</span>
+                <span>{character == 0 ? "Caelus" : character == 1 ? "Origami" : "Trim"}</span>
                 <br />
                 <span className="value">Affinity:</span>
-                <span>{character == 0 ? "Paper" : character == 1 ? "Rock" : "Scissors"}</span>
+                <span>{character == 0 ? "Rock" : character == 1 ? "Paper" : "Scissors"}</span>
               </div>
             </div>
             <Button image={playButton} text={difficulty} onClickFunction={toggleDifficulty}/> 

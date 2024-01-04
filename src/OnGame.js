@@ -162,7 +162,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
   useEffect(() => {
     eel.hello();
-    eel.hello();
+    eel.hell
 
     setTimeout(() => {
       setGameStart(true);
@@ -181,12 +181,12 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
       countdownContainer.style.transform = `translate(-${randomLeft}%, -${randomTop}%)`;
       countdownContainer.style.transition = randomMovement;
-
+      
       setTimeout(animateTranslate, 800); // Adjust the delay as needed
     };
-
+    
     animateTranslate();
-
+    
     return () => {
       clearTimeout(animateTranslate)
     };
@@ -201,16 +201,16 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       setAiAttack(0);
       payyOffMessageElement.innerHTML = ``;
     }
-
+      
     const keyEventListener = detectKey();
     document.addEventListener('keydown', keyEventListener);
 
     let intervalId = null;
     const startInterval = () => {
       intervalId = setInterval(() => {
-
-          if (counter !== 2 && playerAttack === '') {
-            setCounter((prevCounter) => (prevCounter + 1) % 3);
+        
+        if (counter !== 2 && playerAttack === '') {
+          setCounter((prevCounter) => (prevCounter + 1) % 3);
           }
           else if (counter === 2 && playerAttack !== '') {
             setCounter((prevCounter) => (prevCounter + 1) % 3);
