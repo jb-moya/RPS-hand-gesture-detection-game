@@ -39,7 +39,7 @@ import chalk, { Chalk } from 'chalk';
 const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }) => {
   const weight = 640;
   const height = 480;
-  const enable_video_inference = true; 
+  const enable_video_inference = false; 
 
   let character = characterSelectedMain;
 
@@ -195,56 +195,50 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
     if (gameStart === false) { return; }
 
-    const detectObject = async () => {
-      let video = document.getElementById('webcam');
-      let canvas = document.getElementById('canvas');
-      let context = canvas.getContext('2d');
-
-      context.drawImage(video, 0, 0, weight, height);
-
-      canvas.style.display = 'none';
-
-      let frameData = canvas.toDataURL('image/jpeg');
-      let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
-      
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      canvas.style.display = 'block';
-
-      for (let box of detectedData) {
-        let { x1, y1, x2, y2 } = box.coordinates;
-        let className = box.class_name;
-        let confidence = box.confidence;
-
-        context.drawImage(video, x1, y1, x2 - x1, y2 - y1, x1, y1, x2 - x1, y2 - y1);
-        context.beginPath();
-        context.lineWidth = "2";
-        context.strokeStyle = "red";
-        context.rect(x1, y1, x2 - x1, y2 - y1);
-        context.stroke();
-
-        context.font = "16px Arial";
-        context.fillStyle = "red";
-        context.fillText(`${className} (${confidence})`, x1, y1 - 5);
-
-        return className;
-      }
-    }
-
     const captureFrame = async () => {
       try {
         // let randomAttack = await choices[Math.floor(Math.random() * choices.length)];
         // setYoloDetected(randomAttack);
-
-        let detectedObect = await detectObject();
-
-        setYoloDetected(detectedObect);
         
+        let video = document.getElementById('webcam');
+        let canvas = document.getElementById('canvas');
+        let context = canvas.getContext('2d');
+
+        context.drawImage(video, 0, 0, weight, height);
+
+        canvas.style.display = 'none';
+
+        let frameData = canvas.toDataURL('image/jpeg');
+        let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
+        
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        canvas.style.display = 'block';
+
+        for (let box of detectedData) {
+          let { x1, y1, x2, y2 } = box.coordinates;
+          let className = box.class_name;
+          let confidence = box.confidence;
+
+          context.drawImage(video, x1, y1, x2 - x1, y2 - y1, x1, y1, x2 - x1, y2 - y1);
+          context.beginPath();
+          context.lineWidth = "2";
+          context.strokeStyle = "red";
+          context.rect(x1, y1, x2 - x1, y2 - y1);
+          context.stroke();
+
+          context.font = "16px Arial";
+          context.fillStyle = "red";
+          context.fillText(`${className} (${confidence})`, x1, y1 - 5);
+
+          console.log("detect off!");
+          setPlayerAttack(className);
+        }
         
       } catch (error) {
         console.error('Error in captureFrame:', error);
       } finally {
-        setTimeout(captureFrame, 100);
+        setTimeout(captureFrame, 1000);
       }
     }
     
