@@ -39,7 +39,7 @@ import chalk, { Chalk } from 'chalk';
 const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }) => {
   const weight = 640;
   const height = 480;
-  const enable_video_inference = false; 
+  const enable_video_inference = true; 
 
   let character = characterSelectedMain;
 
