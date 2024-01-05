@@ -23,8 +23,17 @@ import pauseButton from './assets/new_png/button_pause.png';
 import StringEffect from "./StringEffect.js";
 
 import Pause from "./Pause.js";
-
 import Button from "./Button.js";
+
+import youLoseSfx from './assets/audio/you_lose.ogg';
+import youWinSfx from './assets/audio/you_win.ogg';
+import itsATieSfx from './assets/audio/its_a_tie.ogg';
+
+import readySfx from './assets/audio/ready.ogg';
+import setSfx from './assets/audio/set.ogg';
+import goSfx from './assets/audio/go.ogg';
+
+import useSound from 'use-sound';
 
 const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }) => {
   const weight = 640;
@@ -58,7 +67,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const handImage = [handIdle, handRock, handPaper, handScissors];
   const [aiAttack, setAiAttack] = useState(0);
   const countdownSpeedMS = 200; //default 1000
-  const roundCooldownMS = 500; //default 2000
+  const roundCooldownMS = 200; //default 2000
   const gameStartDelay = 1000;
 
   const randomMovement = 'transform 800ms cubic-bezier( 0.79, 0.33, 0.14, 0.53 )';
@@ -68,6 +77,32 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
   const player1PortraitImage = document.getElementsByClassName('player_1_portrait')[0];
   const player2PortraitImage = document.getElementsByClassName('player_2_portrait')[0];
+
+  const [playYouLoseSfx] = useSound(youLoseSfx, {
+    volume: 0.25,
+  });
+
+  const [playYouWinSfx] = useSound(youWinSfx, {
+    volume: 0.25,
+  });
+
+  const [playItsATieSfx] = useSound(itsATieSfx, {
+    volume: 0.25,
+  });
+
+  const [playReadySfx] = useSound(readySfx, {
+    volume: 0.25,
+  });
+
+  const [playSetSfx] = useSound(setSfx, {
+    volume: 0.25,
+  });
+
+  const [playGoSfx] = useSound(goSfx, {
+    volume: 0.25,
+  });
+
+  const countdownSfxCycle = [playReadySfx, playSetSfx, playGoSfx];
 
   const setupWebcam = () => {
     navigator.mediaDevices.getUserMedia({ video: true })
@@ -194,6 +229,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
 
   useEffect(() => {
+    if (isPaused) { return; }
     if (gameStart === false) { return; }
 
     if (!isDetectOn) {
@@ -207,15 +243,16 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
     let intervalId = null;
     const startInterval = () => {
+
       intervalId = setInterval(() => {
-        
         if (counter !== 2 && playerAttack === '') {
           setCounter((prevCounter) => (prevCounter + 1) % 3);
-          }
-          else if (counter === 2 && playerAttack !== '') {
-            setCounter((prevCounter) => (prevCounter + 1) % 3);
-            setIsDetectOn(false);
-          }
+        }
+        else if (counter === 2 && playerAttack !== '') {
+          setCounter((prevCounter) => (prevCounter + 1) % 3);
+          setIsDetectOn(false);
+        }
+
       }, isDetectOn ? roundCooldownMS : countdownSpeedMS);
     };
 
@@ -225,7 +262,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       document.removeEventListener('keydown', keyEventListener);
       clearInterval(intervalId);
     };
-  }, [isDetectOn, counter, playerAttack, gameStart]);
+  }, [isDetectOn, counter, playerAttack, gameStart, isPaused]);
 
 
   const detectKey = () => {
@@ -248,8 +285,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
   useEffect(() => {
     if (playerAttack === '') { return; }
-
-    // console.log("playerAttac: " + playerAttack)
     setPlayerAttackHistory((prevPlayerAttackHistory) => [...prevPlayerAttackHistory, playerAttack]);
   }, [playerAttack]);
 
@@ -263,7 +298,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       randomAiAttack = choices[weightedRandom(AiAttackProbabilities)];
     }
     else {
-      // equal chance
       randomAiAttack = choices[Math.floor(Math.random() * choices.length)];
     }
 
@@ -290,15 +324,20 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       player2PortraitImage.style.animation = "blink 1s forwards";
       countdownElement.src = payoffImage[0];
       payyOffMessageElement.innerHTML = `${playerAttack} beats ${choices[aiAttack - 1]}. You Win!`
+      playYouWinSfx();
+
     } else if (payoff === -1) {
       setScores((prevScores) => [prevScores[0], prevScores[1] + 1]);
       player1PortraitImage.style.animation = "blink 1s forwards";
 
       countdownElement.src = payoffImage[1];
       payyOffMessageElement.innerHTML = `${choices[aiAttack - 1]} beats ${playerAttack}. You Lose!`
+      playYouLoseSfx();
+
     } else {
       countdownElement.src = payoffImage[2];
       payyOffMessageElement.innerHTML = `${playerAttack} draws with ${choices[aiAttack - 1]}. It's a draw!`
+      playItsATieSfx();
     }
 
     typewriterContainer.classList.add('typewriter');
@@ -339,8 +378,14 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     return probabilities.length - 1;
   }
 
+  useEffect(() => {
+    countdownSfxCycle[counter]();
+  }, [counter]);
+
   useEffect (() => {
-    if (counter === 2) { setIsDetectOn(true); }
+    if (counter === 2) { 
+      setIsDetectOn(true);
+    }
     else { setIsDetectOn(false); }
 
     const countdownContainer = document.getElementsByClassName('countdown_container')[0];

@@ -1,4 +1,3 @@
-import { useState, useContext } from 'react';
 import StringEffect from "./StringEffect.js";
 import Button from "./Button.js";
 import confButton from './assets/new_png/button3.png';

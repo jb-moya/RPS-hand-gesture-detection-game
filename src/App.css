@@ -115,7 +115,7 @@ body {
 }
 .App.overlay .pause_menu_container {
   opacity: 0;
-  animation: ui805dk 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q1y 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   background-image: url("./assets/new_png/pause_menu.png");
   background-size: cover;
   width: 600px;
@@ -135,7 +135,7 @@ body {
   padding: 20px;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
 }
-@keyframes ui805dk {
+@keyframes u1y6q1y {
   0% {
     opacity: 1;
     transform: translateY(-500px);
@@ -147,7 +147,7 @@ body {
 }
 .App.overlay .pause_menu_container .pause_button {
   opacity: 0;
-  animation: ui805dw 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q2h 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   margin: 10px 0;
   width: 100px;
   height: 100px;
@@ -157,7 +157,7 @@ body {
   align-items: center;
   cursor: pointer;
 }
-@keyframes ui805dw {
+@keyframes u1y6q2h {
   0% {
     opacity: 1;
     transform: translateY(500px);
@@ -221,7 +221,7 @@ body {
 }
 .stage_container .stage_player {
   opacity: 0;
-  animation: ui805es 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q35 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   position: absolute;
   top: 0;
   left: 0;
@@ -230,7 +230,7 @@ body {
   transform: scale(0.85);
   transform-origin: top left;
 }
-@keyframes ui805es {
+@keyframes u1y6q35 {
   0% {
     opacity: 1;
     transform: translateX(-1500px);
@@ -242,14 +242,14 @@ body {
 }
 .stage_container .stage_ai_container {
   opacity: 0;
-  animation: ui805f5 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q3a 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   position: relative;
   width: 640px;
   height: 480px;
   transform: scale(0.85);
   transform-origin: top right;
 }
-@keyframes ui805f5 {
+@keyframes u1y6q3a {
   0% {
     opacity: 1;
     transform: translateX(1500px);
@@ -281,14 +281,14 @@ body {
 
 .countdown_container {
   opacity: 0;
-  animation: ui805g3 0.5s cubic-bezier(0.17, -0.02, 0, 1.22);
+  animation: u1y6q47 0.5s cubic-bezier(0.17, -0.02, 0, 1.22);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   transform-origin: center center;
 }
-@keyframes ui805g3 {
+@keyframes u1y6q47 {
   0% {
     opacity: 1;
     transform: translateY(1000px);
@@ -374,11 +374,11 @@ body {
 }
 .nameplate_container .player_1_username {
   opacity: 0;
-  animation: ui805h0 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q4o 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   top: 100px;
   left: 170px;
 }
-@keyframes ui805h0 {
+@keyframes u1y6q4o {
   0% {
     opacity: 1;
     transform: translateX(-200px);
@@ -390,11 +390,11 @@ body {
 }
 .nameplate_container .player_2_username {
   opacity: 0;
-  animation: ui805hi 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q5f 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   top: 100px;
   right: 170px;
 }
-@keyframes ui805hi {
+@keyframes u1y6q5f {
   0% {
     opacity: 1;
     transform: translateX(200px);
@@ -418,12 +418,12 @@ body {
 }
 .nameplate_container .player_2_portrait {
   opacity: 0;
-  animation: ui805ii 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q6c 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   transform-origin: top right;
   right: 5px;
   margin: 20px 20px 0 0;
 }
-@keyframes ui805ii {
+@keyframes u1y6q6c {
   0% {
     opacity: 1;
     transform: translateX(200px);
@@ -435,12 +435,12 @@ body {
 }
 .nameplate_container .player_1_portrait {
   opacity: 0;
-  animation: ui805jg 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q6w 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   transform-origin: top left;
   left: 5px;
   margin: 20px 0 0 20px;
 }
-@keyframes ui805jg {
+@keyframes u1y6q6w {
   0% {
     opacity: 1;
     transform: translateX(-200px);
@@ -454,9 +454,9 @@ body {
 .player_1_nameplate {
   padding: 20px 0 0 20px;
   opacity: 0;
-  animation: ui805jq 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q7q 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
 }
-@keyframes ui805jq {
+@keyframes u1y6q7q {
   0% {
     opacity: 1;
     transform: translateX(-500px);
@@ -470,9 +470,9 @@ body {
 .player_2_nameplate {
   padding: 20px 20px 0 0;
   opacity: 0;
-  animation: ui805kp 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q8i 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
 }
-@keyframes ui805kp {
+@keyframes u1y6q8i {
   0% {
     opacity: 1;
     transform: translateX(500px);
@@ -492,14 +492,14 @@ body {
 
 .score_container {
   opacity: 0;
-  animation: ui805lm 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q8n 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 70px;
 }
-@keyframes ui805lm {
+@keyframes u1y6q8n {
   0% {
     opacity: 1;
     transform: translateY(-500px);
@@ -518,7 +518,7 @@ body {
 
 .payoff_message_container {
   opacity: 0;
-  animation: ui805lw 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q8w 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   margin: 35px 0 0 0;
   height: 115px;
   margin-top: auto;
@@ -527,7 +527,7 @@ body {
   align-items: center;
   position: relative;
 }
-@keyframes ui805lw {
+@keyframes u1y6q8w {
   0% {
     opacity: 1;
     transform: translateY(500px);
@@ -543,7 +543,7 @@ body {
   white-space: nowrap;
   margin: 0 auto;
   letter-spacing: 0.1em;
-  animation: typing 2.5s steps(25, end);
+  animation: typing 1.5s steps(25, end);
 }
 @keyframes typing {
   from {
@@ -569,7 +569,7 @@ body {
 
 .main_menu_container {
   opacity: 0;
-  animation: ui805mf 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6q9s 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   background-image: url("./assets/new_png/menu.png");
   background-size: cover;
   width: 800px;
@@ -583,7 +583,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-@keyframes ui805mf {
+@keyframes u1y6q9s {
   0% {
     opacity: 1;
     transform: translateY(-500px);
@@ -596,7 +596,7 @@ body {
 
 .main_title {
   opacity: 0;
-  animation: ui805mv 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: u1y6qas 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   position: absolute;
   top: 50%;
   left: 10%;
@@ -606,7 +606,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-@keyframes ui805mv {
+@keyframes u1y6qas {
   0% {
     opacity: 1;
     transform: translateX(500px);
