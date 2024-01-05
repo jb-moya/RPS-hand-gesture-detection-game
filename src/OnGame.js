@@ -50,7 +50,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   }
   
   const [playerAttackHistory, setPlayerAttackHistory] = useState([]);
-  const [scores, setScores] = useState([0, 0]); // [player, ai
+  const [scores, setScores] = useState([0, 0]); // [player, ai]
   const [gameStart, setGameStart] = useState(false);
   const difficulty = difficultySelected;
   const [counter, setCounter] = useState(0);
@@ -66,7 +66,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const payoffImage = [youWin, youLose, draw];
   const handImage = [handIdle, handRock, handPaper, handScissors];
   const [aiAttack, setAiAttack] = useState(0);
-  const countdownSpeedMS = 200; //default 1000
+  const countdownSpeedMS = 100; //default 1000
   const roundCooldownMS = 200; //default 2000
   const gameStartDelay = 1000;
 
@@ -197,7 +197,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
   useEffect(() => {
     eel.hello();
-    eel.hell
 
     setTimeout(() => {
       setGameStart(true);
@@ -316,6 +315,15 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
       if (playerAttack === choices[character]) {
         setScores((prevScores) => [prevScores[0] + 2, prevScores[1]]);
+
+
+        const whiteFlash = document.createElement('div');
+        whiteFlash.classList.add('white-flash');
+        document.body.appendChild(whiteFlash);
+
+        setTimeout(() => {
+          whiteFlash.remove();
+        }, 10);
       }
       else {
         setScores((prevScores) => [prevScores[0] + 1, prevScores[1]]);

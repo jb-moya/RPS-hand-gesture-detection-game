@@ -609,4 +609,16 @@ body {
   }
 }
 
+.white-flash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+
+  background-color: white;
+  animation: white-flash 1s ease-in-out;
+}
+
 /*# sourceMappingURL=App.scss.map */
