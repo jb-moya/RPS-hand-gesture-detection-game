@@ -238,7 +238,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       } catch (error) {
         console.error('Error in captureFrame:', error);
       } finally {
-        setTimeout(captureFrame, 1000);
+        setTimeout(captureFrame, 100);
       }
     }
     
