@@ -6,7 +6,7 @@ import math
 import numpy as np
 import base64
 import sys
-
+import time
 
 @eel.expose
 def hello():
@@ -15,6 +15,15 @@ def hello():
 classNames = ["rock", "paper", "scissors"]
 
 model = YOLO("./src/assets/handPRO.pt")
+
+# @eel.expose
+# def detect():
+#     # wait for some time
+#     time.sleep(.2)
+
+#     # return random choice: rock, paper, siccsors
+#     return np.random.choice(classNames)
+
 
 @eel.expose
 def detect(encoded_img, confThreshSelected, width, height):

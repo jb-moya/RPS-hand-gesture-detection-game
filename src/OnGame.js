@@ -135,7 +135,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     let counts = {rock: 1, paper: 1, scissors: 1};
 
     for (let attack of recentPlayerAttack) {
-      console.log("attack: " + attack)
       counts[attack] += 1;
     }
 
@@ -200,6 +199,9 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
         // let randomAttack = await choices[Math.floor(Math.random() * choices.length)];
         // setYoloDetected(randomAttack);
         
+        // let detectedData = await eel.detect()();
+        // setYoloDetected(detectedData);
+
         let video = document.getElementById('webcam');
         let canvas = document.getElementById('canvas');
         let context = canvas.getContext('2d');
@@ -253,10 +255,14 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     console.log(chalk.yellow("playerAttack: " + playerAttack))
 
     if (isDetectOn !== false && playerAttack === '') {
-      console.log(chalk.blue("yolo detected HEREEEEEEEE: " + yoloDetected))
-      console.log(chalk.blue("yolo detected HEREEEEEEEE: " + yoloDetected))
+      console.log("setting yolo detection as player attack: " + yoloDetected)
       setPlayerAttack(yoloDetected);
     }
+    
+    if (playerAttack !== '') {
+      console.log(chalk.red("already attacked! --------------: " + playerAttack))
+    }
+
   }, [isDetectOn, playerAttack, yoloDetected]);
 
   useEffect(() => {
@@ -264,7 +270,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     if (gameStart === false) { return; }
 
     if (!isDetectOn) {
-      console.log("detect off!!!!!!!!!!!!!")
+      // console.log("detect off!!!!!!!!!!!!!")
       setPlayerAttack('');
       setAiAttack(0);
       payyOffMessageElement.innerHTML = ``;
@@ -273,21 +279,21 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     // const keyEventListener = detectKey();
     // document.addEventListener('keydown', keyEventListener);
 
-    console.log("isDetectOn: " + isDetectOn)
+    // console.log("isDetectOn: " + isDetectOn)
     
     let intervalId = null;
     const startInterval = () => {
       
       intervalId = setInterval(() => {
-        console.log("counter: " + counter)
-        console.log("playerAttack: " + playerAttack)
+        // console.log("counter: " + counter)
+        // console.log("playerAttack: " + playerAttack)
 
         if (counter !== 2 && playerAttack === '') {
           setCounter((prevCounter) => (prevCounter + 1) % 3);
         }
         else if (counter === 2 && playerAttack !== '') {
           setCounter((prevCounter) => (prevCounter + 1) % 3);
-          console.log("detect off!");
+          // console.log("detect off!");
           setIsDetectOn(false);
         }
         
@@ -304,9 +310,9 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
   const detectKey = () => {
     return function(event) {
-      if (isDetectOn === false) { console.log("detect off!"); return;}
+      // if (isDetectOn === false) { console.log("detect off!"); return;}
 
-      if (playerAttack !== '') { console.log("player attack already!"); return; }
+      // if (playerAttack !== '') { console.log("player attack already!"); return; }
 
       if (event.key === 'a') {
         setPlayerAttack('rock');
@@ -321,7 +327,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   };
 
   useEffect(() => {
-    console.log(chalk.red("playerAttack: " + playerAttack))
+    // console.log(chalk.red("playerAttack: " + playerAttack))
 
     if (playerAttack === '') { return; }
 
@@ -394,7 +400,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     const countdownContainer = document.getElementsByClassName('countdown_container')[0];
     const countdownImage = document.getElementById('countdown');
 
-    console.log("countdownContainer: " + countdownContainer)
+    // console.log("countdownContainer: " + countdownContainer)
 
     countdownImage.classList.add('hue-rotate');
     // Remove the class after a delay
