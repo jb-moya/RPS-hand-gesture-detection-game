@@ -17,12 +17,12 @@ classNames = ["rock", "paper", "scissors"]
 model = YOLO("./src/assets/handPRO.pt")
 
 @eel.expose
-def detect(encoded_img, width, height):
+def detect(encoded_img, confThreshSelected, width, height):
     img_data = base64.b64decode(encoded_img.split(',')[1])
     nparr = np.frombuffer(img_data, np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
-    results = model(img, max_det=1, conf=.1)
+    results = model(img, max_det=1, conf=confThreshSelected)
     bounding_boxes = []
 
     for r in results:

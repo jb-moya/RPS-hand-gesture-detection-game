@@ -38,7 +38,7 @@ import useSound from 'use-sound';
 const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }) => {
   const weight = 640;
   const height = 480;
-  const enable_video_inference = false; 
+  const enable_video_inference = true; 
 
   let character = characterSelectedMain;
   console.log("characterSelectedMain: " + characterSelectedMain)
@@ -66,8 +66,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const payoffImage = [youWin, youLose, draw];
   const handImage = [handIdle, handRock, handPaper, handScissors];
   const [aiAttack, setAiAttack] = useState(0);
-  const countdownSpeedMS = 100; //default 1000
-  const roundCooldownMS = 200; //default 2000
+  const countdownSpeedMS = 1000; //default 1000
+  const roundCooldownMS = 2000; //default 2000
   const gameStartDelay = 1000;
 
   const randomMovement = 'transform 800ms cubic-bezier( 0.79, 0.33, 0.14, 0.53 )';
@@ -131,7 +131,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       canvas.style.display = 'none';
 
       let frameData = canvas.toDataURL('image/jpeg');
-      let detectedData = await eel.detect(frameData, weight, height)();
+      let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
       
       context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -152,6 +152,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
         context.font = "16px Arial";
         context.fillStyle = "red";
         context.fillText(`${className} (${confidence})`, x1, y1 - 5);
+
+        setPlayerAttack(className);
       }
 
       if (enable_video_inference) {
@@ -315,7 +317,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
       if (playerAttack === choices[character]) {
         setScores((prevScores) => [prevScores[0] + 2, prevScores[1]]);
-
 
         const whiteFlash = document.createElement('div');
         whiteFlash.classList.add('white-flash');
