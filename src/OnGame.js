@@ -197,47 +197,47 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
     const captureFrame = async () => {
       try {
-        // let randomAttack = await choices[Math.floor(Math.random() * choices.length)];
+        let randomAttack = await choices[Math.floor(Math.random() * choices.length)];
         // setYoloDetected(randomAttack);
         
-        let video = document.getElementById('webcam');
-        let canvas = document.getElementById('canvas');
-        let context = canvas.getContext('2d');
+        // let video = document.getElementById('webcam');
+        // let canvas = document.getElementById('canvas');
+        // let context = canvas.getContext('2d');
 
-        context.drawImage(video, 0, 0, weight, height);
+        // context.drawImage(video, 0, 0, weight, height);
 
-        canvas.style.display = 'none';
+        // canvas.style.display = 'none';
 
-        let frameData = canvas.toDataURL('image/jpeg');
-        let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
+        // let frameData = canvas.toDataURL('image/jpeg');
+        // let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
         
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        // context.clearRect(0, 0, canvas.width, canvas.height);
 
-        canvas.style.display = 'block';
+        // canvas.style.display = 'block';
 
-        for (let box of detectedData) {
-          let { x1, y1, x2, y2 } = box.coordinates;
-          let className = box.class_name;
-          let confidence = box.confidence;
+        // for (let box of detectedData) {
+        //   let { x1, y1, x2, y2 } = box.coordinates;
+        //   let className = box.class_name;
+        //   let confidence = box.confidence;
 
-          context.drawImage(video, x1, y1, x2 - x1, y2 - y1, x1, y1, x2 - x1, y2 - y1);
-          context.beginPath();
-          context.lineWidth = "2";
-          context.strokeStyle = "red";
-          context.rect(x1, y1, x2 - x1, y2 - y1);
-          context.stroke();
+        //   context.drawImage(video, x1, y1, x2 - x1, y2 - y1, x1, y1, x2 - x1, y2 - y1);
+        //   context.beginPath();
+        //   context.lineWidth = "2";
+        //   context.strokeStyle = "red";
+        //   context.rect(x1, y1, x2 - x1, y2 - y1);
+        //   context.stroke();
 
-          context.font = "16px Arial";
-          context.fillStyle = "red";
-          context.fillText(`${className} (${confidence})`, x1, y1 - 5);
+        //   context.font = "16px Arial";
+        //   context.fillStyle = "red";
+        //   context.fillText(`${className} (${confidence})`, x1, y1 - 5);
 
-          console.log("detect off!");
-          setPlayerAttack(className);
-        }
+        //   console.log("detect off!");
+        //   setPlayerAttack(className);
+        
       } catch (error) {
         console.error('Error in captureFrame:', error);
       } finally {
-        setTimeout(captureFrame, 1000);
+        setTimeout(captureFrame, 3000);
       }
     }
     
@@ -279,10 +279,10 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
         console.log("counter: " + counter)
         console.log("playerAttack: " + playerAttack)
 
-        if (counter !== 2 && !isDetectOn) {
+        if (counter !== 2 && playerAttack === '') {
           setCounter((prevCounter) => (prevCounter + 1) % 3);
         }
-        else if (counter === 2 && isDetectOn) {
+        else if (counter === 2 && playerAttack !== '') {
           setCounter((prevCounter) => (prevCounter + 1) % 3);
           console.log("detect off!");
           setIsDetectOn(false);
