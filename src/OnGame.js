@@ -65,7 +65,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
   const [isDetectOn, setIsDetectOn] = useState(true);
   
-  const [yoloDetected, setYoloDetected] = useState('');
+  const [yoloDetected, setYoloDetected] = useState({ value: '' });
 
   const [playerAttack, setPlayerAttack] = useState('');
 
@@ -213,7 +213,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     const captureFrame = async () => {
       try {
         let randomAttack = await choices[Math.floor(Math.random() * choices.length)];
-        setYoloDetected(randomAttack);
+        setYoloDetected({ value: newValue });
 
         // let video = document.getElementById('webcam');
         // let canvas = document.getElementById('canvas');
@@ -247,7 +247,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
         //   context.fillText(`${className} (${confidence})`, x1, y1 - 5);
 
         //   console.log("detect off!");
-        //   setYoloDetected(className);
+        //   setYoloDetected({ value: className });
         // }
         
       } catch (error) {
@@ -261,7 +261,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   }, [gameStart]);
 
   useEffect(() => {
-    console.log(chalk.green("yolo detection: " + yoloDetected))
+    console.log(chalk.green("yolo detection: " + yoloDetected.value))
   }, [yoloDetected]);
 
   useEffect(() => {
