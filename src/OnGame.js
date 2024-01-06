@@ -49,6 +49,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     scissors: { rock: -1, paper: 1, scissors: 0, },
   }
   
+  // testing, this comment will not be seen in the main branch 
+
   const [playerAttackHistory, setPlayerAttackHistory] = useState([]);
   const [scores, setScores] = useState([0, 0]); // [player, ai]
   
