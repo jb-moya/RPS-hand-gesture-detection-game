@@ -115,7 +115,7 @@ body {
 }
 .App.overlay .pause_menu_container {
   opacity: 0;
-  animation: uyt3gf1 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g55j 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   background-image: url("./assets/new_png/pause_menu.png");
   background-size: cover;
   width: 600px;
@@ -135,7 +135,7 @@ body {
   padding: 20px;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
 }
-@keyframes uyt3gf1 {
+@keyframes un8g55j {
   0% {
     opacity: 1;
     transform: translateY(-500px);
@@ -147,7 +147,7 @@ body {
 }
 .App.overlay .pause_menu_container .pause_button {
   opacity: 0;
-  animation: uyt3gfu 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g562 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   margin: 10px 0;
   width: 100px;
   height: 100px;
@@ -157,7 +157,7 @@ body {
   align-items: center;
   cursor: pointer;
 }
-@keyframes uyt3gfu {
+@keyframes un8g562 {
   0% {
     opacity: 1;
     transform: translateY(500px);
@@ -221,7 +221,7 @@ body {
 }
 .stage_container .stage_player {
   opacity: 0;
-  animation: uyt3ggh 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g572 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   position: absolute;
   top: 0;
   left: 0;
@@ -230,7 +230,7 @@ body {
   transform: scale(0.85);
   transform-origin: top left;
 }
-@keyframes uyt3ggh {
+@keyframes un8g572 {
   0% {
     opacity: 1;
     transform: translateX(-1500px);
@@ -242,14 +242,14 @@ body {
 }
 .stage_container .stage_ai_container {
   opacity: 0;
-  animation: uyt3ggk 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g57w 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   position: relative;
   width: 640px;
   height: 480px;
   transform: scale(0.85);
   transform-origin: top right;
 }
-@keyframes uyt3ggk {
+@keyframes un8g57w {
   0% {
     opacity: 1;
     transform: translateX(1500px);
@@ -281,14 +281,14 @@ body {
 
 .countdown_container {
   opacity: 0;
-  animation: uyt3ghj 0.5s cubic-bezier(0.17, -0.02, 0, 1.22);
+  animation: un8g584 0.5s cubic-bezier(0.17, -0.02, 0, 1.22);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   transform-origin: center center;
 }
-@keyframes uyt3ghj {
+@keyframes un8g584 {
   0% {
     opacity: 1;
     transform: translateY(1000px);
@@ -374,11 +374,11 @@ body {
 }
 .nameplate_container .player_1_username {
   opacity: 0;
-  animation: uyt3gii 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g591 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   top: 100px;
   left: 170px;
 }
-@keyframes uyt3gii {
+@keyframes un8g591 {
   0% {
     opacity: 1;
     transform: translateX(-200px);
@@ -390,11 +390,11 @@ body {
 }
 .nameplate_container .player_2_username {
   opacity: 0;
-  animation: uyt3gir 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g59d 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   top: 100px;
   right: 170px;
 }
-@keyframes uyt3gir {
+@keyframes un8g59d {
   0% {
     opacity: 1;
     transform: translateX(200px);
@@ -418,12 +418,12 @@ body {
 }
 .nameplate_container .player_2_portrait {
   opacity: 0;
-  animation: uyt3gj0 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g59e 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   transform-origin: top right;
   right: 5px;
   margin: 20px 20px 0 0;
 }
-@keyframes uyt3gj0 {
+@keyframes un8g59e {
   0% {
     opacity: 1;
     transform: translateX(200px);
@@ -435,12 +435,12 @@ body {
 }
 .nameplate_container .player_1_portrait {
   opacity: 0;
-  animation: uyt3gjv 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g59m 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   transform-origin: top left;
   left: 5px;
   margin: 20px 0 0 20px;
 }
-@keyframes uyt3gjv {
+@keyframes un8g59m {
   0% {
     opacity: 1;
     transform: translateX(-200px);
@@ -454,9 +454,9 @@ body {
 .player_1_nameplate {
   padding: 20px 0 0 20px;
   opacity: 0;
-  animation: uyt3gke 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g5ah 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
 }
-@keyframes uyt3gke {
+@keyframes un8g5ah {
   0% {
     opacity: 1;
     transform: translateX(-500px);
@@ -470,9 +470,9 @@ body {
 .player_2_nameplate {
   padding: 20px 20px 0 0;
   opacity: 0;
-  animation: uyt3gkx 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g5bf 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
 }
-@keyframes uyt3gkx {
+@keyframes un8g5bf {
   0% {
     opacity: 1;
     transform: translateX(500px);
@@ -492,14 +492,14 @@ body {
 
 .score_container {
   opacity: 0;
-  animation: uyt3glh 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g5bt 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 70px;
 }
-@keyframes uyt3glh {
+@keyframes un8g5bt {
   0% {
     opacity: 1;
     transform: translateY(-500px);
@@ -518,7 +518,7 @@ body {
 
 .payoff_message_container {
   opacity: 0;
-  animation: uyt3gm3 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g5cn 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   margin: 35px 0 0 0;
   height: 115px;
   margin-top: auto;
@@ -527,7 +527,7 @@ body {
   align-items: center;
   position: relative;
 }
-@keyframes uyt3gm3 {
+@keyframes un8g5cn {
   0% {
     opacity: 1;
     transform: translateY(500px);
@@ -562,14 +562,14 @@ body {
 }
 .payoff_message_container .payoff_message {
   z-index: 99;
-  font-size: 40px;
+  font-size: 30px;
   text-align: center;
   align-items: center;
 }
 
 .main_menu_container {
   opacity: 0;
-  animation: uyt3gme 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g5d0 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   background-image: url("./assets/new_png/menu.png");
   background-size: cover;
   width: 800px;
@@ -583,7 +583,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-@keyframes uyt3gme {
+@keyframes un8g5d0 {
   0% {
     opacity: 1;
     transform: translateY(-500px);
@@ -596,7 +596,7 @@ body {
 
 .main_title {
   opacity: 0;
-  animation: uyt3gn1 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: un8g5dj 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   position: absolute;
   top: 50%;
   left: 10%;
@@ -606,7 +606,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-@keyframes uyt3gn1 {
+@keyframes un8g5dj {
   0% {
     opacity: 1;
     transform: translateX(500px);
@@ -662,6 +662,21 @@ body {
   z-index: 99999;
   background-color: rgba(255, 255, 255, 0.5);
   animation: white-flash 1s ease-in-out;
+}
+
+.score-enlarge {
+  animation: score-enlarge 1s ease-in-out;
+}
+@keyframes score-enlarge {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 
