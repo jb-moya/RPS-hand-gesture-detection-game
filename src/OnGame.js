@@ -196,46 +196,43 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
     const captureFrame = async () => {
       try {
-        // let randomAttack = await choices[Math.floor(Math.random() * choices.length)];
-        // setYoloDetected(randomAttack);
+        let randomAttack = await choices[Math.floor(Math.random() * choices.length)];
+        setYoloDetected(randomAttack);
+
+        // let video = document.getElementById('webcam');
+        // let canvas = document.getElementById('canvas');
+        // let context = canvas.getContext('2d');
+
+        // context.drawImage(video, 0, 0, weight, height);
+
+        // canvas.style.display = 'none';
+
+        // let frameData = canvas.toDataURL('image/jpeg');
+        // let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
         
-        // let detectedData = await eel.detect()();
-        // setYoloDetected(detectedData);
+        // context.clearRect(0, 0, canvas.width, canvas.height);
 
-        let video = document.getElementById('webcam');
-        let canvas = document.getElementById('canvas');
-        let context = canvas.getContext('2d');
+        // canvas.style.display = 'block';
 
-        context.drawImage(video, 0, 0, weight, height);
+        // for (let box of detectedData) {
+        //   let { x1, y1, x2, y2 } = box.coordinates;
+        //   let className = box.class_name;
+        //   let confidence = box.confidence;
 
-        canvas.style.display = 'none';
+        //   context.drawImage(video, x1, y1, x2 - x1, y2 - y1, x1, y1, x2 - x1, y2 - y1);
+        //   context.beginPath();
+        //   context.lineWidth = "2";
+        //   context.strokeStyle = "red";
+        //   context.rect(x1, y1, x2 - x1, y2 - y1);
+        //   context.stroke();
 
-        let frameData = canvas.toDataURL('image/jpeg');
-        let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
-        
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        //   context.font = "16px Arial";
+        //   context.fillStyle = "red";
+        //   context.fillText(`${className} (${confidence})`, x1, y1 - 5);
 
-        canvas.style.display = 'block';
-
-        for (let box of detectedData) {
-          let { x1, y1, x2, y2 } = box.coordinates;
-          let className = box.class_name;
-          let confidence = box.confidence;
-
-          context.drawImage(video, x1, y1, x2 - x1, y2 - y1, x1, y1, x2 - x1, y2 - y1);
-          context.beginPath();
-          context.lineWidth = "2";
-          context.strokeStyle = "red";
-          context.rect(x1, y1, x2 - x1, y2 - y1);
-          context.stroke();
-
-          context.font = "16px Arial";
-          context.fillStyle = "red";
-          context.fillText(`${className} (${confidence})`, x1, y1 - 5);
-
-          console.log("detect off!");
-          setYoloDetected(className);
-        }
+        //   console.log("detect off!");
+        //   setYoloDetected(className);
+        // }
         
       } catch (error) {
         console.error('Error in captureFrame:', error);
