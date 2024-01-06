@@ -269,30 +269,20 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     if (gameStart === false) { return; }
 
     if (!isDetectOn) {
-      // console.log("detect off!!!!!!!!!!!!!")
       setPlayerAttack('');
       setAiAttack(0);
       payyOffMessageElement.innerHTML = ``;
     }
-      
-    // const keyEventListener = detectKey();
-    // document.addEventListener('keydown', keyEventListener);
-
-    // console.log("isDetectOn: " + isDetectOn)
     
     let intervalId = null;
     const startInterval = () => {
       
       intervalId = setInterval(() => {
-        // console.log("counter: " + counter)
-        // console.log("playerAttack: " + playerAttack)
-
         if (counter !== 2 && playerAttack === '') {
           setCounter((prevCounter) => (prevCounter + 1) % 3);
         }
         else if (counter === 2 && playerAttack !== '') {
           setCounter((prevCounter) => (prevCounter + 1) % 3);
-          // console.log("detect off!");
           setIsDetectOn(false);
         }
         
@@ -302,32 +292,11 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     startInterval();
 
     return () => {
-      // document.removeEventListener('keydown', keyEventListener);
       clearInterval(intervalId);
     };
   }, [isDetectOn, counter, playerAttack, gameStart, isPaused]);
 
-  const detectKey = () => {
-    return function(event) {
-      // if (isDetectOn === false) { console.log("detect off!"); return;}
-
-      // if (playerAttack !== '') { console.log("player attack already!"); return; }
-
-      if (event.key === 'a') {
-        setPlayerAttack('rock');
-      }
-      else if (event.key === 's') {
-        setPlayerAttack('paper');
-      }
-      else if (event.key === 'd') {
-        setPlayerAttack('scissors');
-      }
-    };
-  };
-
   useEffect(() => {
-    // console.log(chalk.red("playerAttack: " + playerAttack))
-
     if (playerAttack === '') { return; }
 
     setPlayerAttackHistory((prevPlayerAttackHistory) => [...prevPlayerAttackHistory, playerAttack]);
@@ -396,13 +365,9 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       typewriterContainer.classList.remove('typewriter');
     }, roundCooldownMS);
 
-    const countdownContainer = document.getElementsByClassName('countdown_container')[0];
     const countdownImage = document.getElementById('countdown');
 
-    // console.log("countdownContainer: " + countdownContainer)
-
     countdownImage.classList.add('hue-rotate');
-    // Remove the class after a delay
     setTimeout(() => {
       countdownImage.classList.remove('hue-rotate');
     }, roundCooldownMS);
