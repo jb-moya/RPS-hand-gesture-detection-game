@@ -85,7 +85,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const payoffImage = [youWin, youLose, draw];
   const handImage = [handIdle, handRock, handPaper, handScissors];
   const [aiAttack, setAiAttack] = useState(0);
-  const countdownSpeedMS = 500; //default 1000
+  const countdownSpeedMS = 200; //default 1000
   const roundCooldownMS = 1000; //default 2000
   const gameStartDelay = 1000;
 
@@ -256,19 +256,12 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
         }
         
         console.log(chalk.blueBright("deceted class: " + detectedClass));
+        setYoloDetected({ value: detectedClass });
 
-        // let randomDelay = Math.random() * 6000 + 10;
-
-        
-        // setTimeout(setYoloDetected({ value: detectedClass }), randomDelay);
-        setYoloDetected({ value: detectedClass })
-        
       } catch (error) {
         console.error('Error in captureFrame:', error);
       } finally {
-        // let randomDelay = Math.random() * 6000 + 10;
-
-        setTimeout(captureFrame, 200);
+        setTimeout(captureFrame, 3000);
       }
     }
     
@@ -278,7 +271,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   useEffect(() => {
     if (playerAttack === '') { return; }
 
-    setIsDetectOn(true);
+    setIsPlayerAlreadyAttacked(true);
   }, [playerAttack]);
 
   useEffect(() => {
@@ -286,11 +279,11 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   }, [yoloDetected]);
   
   useEffect(() => {
-    if (isDetectOn === true) { return; }
+    if (isPlayerAlreadyAttacked === true) { return; }
     
     console.log(chalk.green("isPlayerAlreadyAttacked: " + isPlayerAlreadyAttacked))
     setPlayerAttack(yoloDetected.value);
-  }, [yoloDetected, isDetectOn]);
+  }, [yoloDetected, isPlayerAlreadyAttacked]);
 
   useEffect(() => {
     if (isPaused) { return; }
@@ -319,7 +312,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
   useEffect(() => {
     if (counter === 2 && playerAttack === '') {
-      // setIsDetectOn(true);
+      setIsDetectOn(true);
     } else if (counter === 0) {
       setIsPlayerAlreadyAttacked(false);
       setIsDetectOn(false);
@@ -331,6 +324,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   
   useEffect(() => {
     countdownSfxCycle[counter]();
+    
+    // if (counter === 0) {setAiAttack(0);}
     setAiAttack(0);
   }, [counter]);
 
