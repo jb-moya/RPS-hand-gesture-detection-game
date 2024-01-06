@@ -234,7 +234,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
           context.fillText(`${className} (${confidence})`, x1, y1 - 5);
 
           console.log("detect off!");
-          setPlayerAttack(className);
+          setYoloDetected(className);
         }
         
       } catch (error) {
