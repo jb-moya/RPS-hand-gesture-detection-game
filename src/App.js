@@ -15,6 +15,7 @@ import { useGlobalAudioPlayer } from 'react-use-audio-player';
 
 import mainMenuMusic from './assets/audio/music_1.mp3';
 import onGameMusic from './assets/audio/music_2.mp3';
+import StringEffect from "./StringEffect.js";
 
 const App = () => {
   const { cursorPosition } = useContext(CursorPositionContext);
@@ -119,11 +120,11 @@ const App = () => {
                 classes_img={`character_option`}
               />
               <div className="character_info">
-                <span className="value">Name:</span>
-                <span>{character == 0 ? "Caelus" : character == 1 ? "Origami" : "Trim"}</span>
+                <StringEffect className="value" text="Name: "/>
+                <StringEffect text={character == 0 ? "Caelus" : character == 1 ? "Origami" : "Trim"} />
                 <br />
-                <span className="value">Affinity:</span>
-                <span>{character == 0 ? "Rock" : character == 1 ? "Paper" : "Scissors"}</span>
+                <StringEffect className="value" text="Affinity:" />
+                <StringEffect text={character == 0 ? "Rock" : character == 1 ? "Paper" : "Scissors"} />
               </div>
             </div>
             <Button image={playButton} text={difficulty} onClickFunction={toggleDifficulty}/> 

@@ -33,8 +33,11 @@ import readySfx from './assets/audio/ready.ogg';
 import setSfx from './assets/audio/set.ogg';
 import goSfx from './assets/audio/go.ogg';
 
+import criticalSfx from './assets/audio/critical.ogg';
+import damageSfx from './assets/audio/damage.mp3';
+
 import useSound from 'use-sound';
-import chalk, { Chalk } from 'chalk';
+import chalk from 'chalk';
 
 const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }) => {
   const weight = 640;
@@ -49,6 +52,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     scissors: { rock: -1, paper: 1, scissors: 0, },
   }
   
+  // testing, this comment will not be seen in the main branch 
+
   const [playerAttackHistory, setPlayerAttackHistory] = useState([]);
   const [scores, setScores] = useState([0, 0]); // [player, ai]
   
@@ -59,27 +64,25 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const [counter, setCounter] = useState(0);
 
   const [isDetectOn, setIsDetectOn] = useState(true);
-  const isDetectOnRef = useRef();
   
   const [yoloDetected, setYoloDetected] = useState('');
 
   const [playerAttack, setPlayerAttack] = useState('');
-  const playerAttackRef = useRef();
 
   const choices = ['rock', 'paper', 'scissors'];
 
   const [isPaused, setIsPaused] = useState(false);
-  const isPausedRef = useRef();
 
-  const [confThreshSelected, setConfThreshSelected] = useState(0.6);
-  const confThreshSelectedRef = useRef();
+  const [confThreshSelected, setConfThreshSelected] = useState(0.8);
+
+  const [currentRoundWinner, setCurrentRoundWinner] = useState('');
 
   const countdownImage = [countdownReady, countdownSet, countdownGo];
   const payoffImage = [youWin, youLose, draw];
   const handImage = [handIdle, handRock, handPaper, handScissors];
   const [aiAttack, setAiAttack] = useState(0);
   const countdownSpeedMS = 500; //default 1000
-  const roundCooldownMS = 1000; //default 2000
+  const roundCooldownMS = 2000; //default 2000
   const gameStartDelay = 1000;
 
   const randomMovement = 'transform 800ms cubic-bezier( 0.79, 0.33, 0.14, 0.53 )';
@@ -90,6 +93,9 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const player1PortraitImage = document.getElementsByClassName('player_1_portrait')[0];
   const player2PortraitImage = document.getElementsByClassName('player_2_portrait')[0];
   
+  const player1ScoreRef = useRef(null);
+  const player2ScoreRef = useRef(null);
+
   const [playYouLoseSfx] = useSound(youLoseSfx, {
     volume: 0.25,
   });
@@ -112,6 +118,14 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
   const [playGoSfx] = useSound(goSfx, {
     volume: 0.25,
+  });
+
+  const [playCriticalSfx] = useSound(criticalSfx, {
+    volume: 0.8,
+  });
+
+  const [playDamageSfx] = useSound(damageSfx, {
+    volume: 0.5,
   });
 
   const countdownSfxCycle = [playReadySfx, playSetSfx, playGoSfx];
@@ -184,6 +198,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     
     animateTranslate();
     
+
+
     return () => {
       clearTimeout(animateTranslate)
     };
@@ -196,43 +212,43 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
     const captureFrame = async () => {
       try {
-        // let randomAttack = await choices[Math.floor(Math.random() * choices.length)];
-        // setYoloDetected(randomAttack);
+        let randomAttack = await choices[Math.floor(Math.random() * choices.length)];
+        setYoloDetected(randomAttack);
 
-        let video = document.getElementById('webcam');
-        let canvas = document.getElementById('canvas');
-        let context = canvas.getContext('2d');
+        // let video = document.getElementById('webcam');
+        // let canvas = document.getElementById('canvas');
+        // let context = canvas.getContext('2d');
 
-        context.drawImage(video, 0, 0, weight, height);
+        // context.drawImage(video, 0, 0, weight, height);
 
-        canvas.style.display = 'none';
+        // canvas.style.display = 'none';
 
-        let frameData = canvas.toDataURL('image/jpeg');
-        let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
+        // let frameData = canvas.toDataURL('image/jpeg');
+        // let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
         
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        // context.clearRect(0, 0, canvas.width, canvas.height);
 
-        canvas.style.display = 'block';
+        // canvas.style.display = 'block';
 
-        for (let box of detectedData) {
-          let { x1, y1, x2, y2 } = box.coordinates;
-          let className = box.class_name;
-          let confidence = box.confidence;
+        // for (let box of detectedData) {
+        //   let { x1, y1, x2, y2 } = box.coordinates;
+        //   let className = box.class_name;
+        //   let confidence = box.confidence;
 
-          context.drawImage(video, x1, y1, x2 - x1, y2 - y1, x1, y1, x2 - x1, y2 - y1);
-          context.beginPath();
-          context.lineWidth = "2";
-          context.strokeStyle = "red";
-          context.rect(x1, y1, x2 - x1, y2 - y1);
-          context.stroke();
+        //   context.drawImage(video, x1, y1, x2 - x1, y2 - y1, x1, y1, x2 - x1, y2 - y1);
+        //   context.beginPath();
+        //   context.lineWidth = "2";
+        //   context.strokeStyle = "red";
+        //   context.rect(x1, y1, x2 - x1, y2 - y1);
+        //   context.stroke();
 
-          context.font = "16px Arial";
-          context.fillStyle = "red";
-          context.fillText(`${className} (${confidence})`, x1, y1 - 5);
+        //   context.font = "16px Arial";
+        //   context.fillStyle = "red";
+        //   context.fillText(`${className} (${confidence})`, x1, y1 - 5);
 
-          console.log("detect off!");
-          setYoloDetected(className);
-        }
+        //   console.log("detect off!");
+        //   setYoloDetected(className);
+        // }
         
       } catch (error) {
         console.error('Error in captureFrame:', error);
@@ -267,30 +283,20 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     if (gameStart === false) { return; }
 
     if (!isDetectOn) {
-      // console.log("detect off!!!!!!!!!!!!!")
       setPlayerAttack('');
       setAiAttack(0);
       payyOffMessageElement.innerHTML = ``;
     }
-      
-    // const keyEventListener = detectKey();
-    // document.addEventListener('keydown', keyEventListener);
-
-    // console.log("isDetectOn: " + isDetectOn)
     
     let intervalId = null;
     const startInterval = () => {
       
       intervalId = setInterval(() => {
-        // console.log("counter: " + counter)
-        // console.log("playerAttack: " + playerAttack)
-
         if (counter !== 2 && playerAttack === '') {
           setCounter((prevCounter) => (prevCounter + 1) % 3);
         }
         else if (counter === 2 && playerAttack !== '') {
           setCounter((prevCounter) => (prevCounter + 1) % 3);
-          // console.log("detect off!");
           setIsDetectOn(false);
         }
         
@@ -300,32 +306,11 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     startInterval();
 
     return () => {
-      // document.removeEventListener('keydown', keyEventListener);
       clearInterval(intervalId);
     };
   }, [isDetectOn, counter, playerAttack, gameStart, isPaused]);
 
-  const detectKey = () => {
-    return function(event) {
-      // if (isDetectOn === false) { console.log("detect off!"); return;}
-
-      // if (playerAttack !== '') { console.log("player attack already!"); return; }
-
-      if (event.key === 'a') {
-        setPlayerAttack('rock');
-      }
-      else if (event.key === 's') {
-        setPlayerAttack('paper');
-      }
-      else if (event.key === 'd') {
-        setPlayerAttack('scissors');
-      }
-    };
-  };
-
   useEffect(() => {
-    // console.log(chalk.red("playerAttack: " + playerAttack))
-
     if (playerAttack === '') { return; }
 
     setPlayerAttackHistory((prevPlayerAttackHistory) => [...prevPlayerAttackHistory, playerAttack]);
@@ -346,12 +331,32 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   }, [playerAttackHistory]);
 
   useEffect(() => {
+    if (currentRoundWinner === '') { return; }
+    if (currentRoundWinner === 'player') {
+      player1ScoreRef.current.classList.add('score-enlarge');
+    }
+    else if (currentRoundWinner === 'ai') {
+      player2ScoreRef.current.classList.add('score-enlarge');
+    }
+
+    setTimeout(() => {
+      player1ScoreRef.current.classList.remove('score-enlarge');
+      player2ScoreRef.current.classList.remove('score-enlarge');
+    }, 1000);
+
+    setCurrentRoundWinner('');
+  }, [currentRoundWinner]);
+
+  useEffect(() => {
     if (playerAttack === '' || aiAttack === 0) { return; }
 
     let payoff = getPayoff(playerAttack, choices[aiAttack - 1]);
 
     if (payoff === 1) {
+      setCurrentRoundWinner('player');
+      playDamageSfx();
       if (playerAttack === choices[character]) {
+        playCriticalSfx();
         setScores((prevScores) => [prevScores[0] + 2, prevScores[1]]);
 
         const whiteFlash = document.createElement('div');
@@ -360,7 +365,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
         setTimeout(() => {
           whiteFlash.remove();
-        }, 10);
+        }, 75);
       }
       else {
         setScores((prevScores) => [prevScores[0] + 1, prevScores[1]]);
@@ -369,20 +374,32 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       player2PortraitImage.style.animation = "blink 1s forwards";
       countdownElement.src = payoffImage[0];
       payyOffMessageElement.innerHTML = `${playerAttack} beats ${choices[aiAttack - 1]}. You Win!`
-      playYouWinSfx();
+      
+      setTimeout(() => {
+        playYouWinSfx();
+      }, 400);
 
     } else if (payoff === -1) {
+      setCurrentRoundWinner('ai');
+      playDamageSfx();
       setScores((prevScores) => [prevScores[0], prevScores[1] + 1]);
       player1PortraitImage.style.animation = "blink 1s forwards";
 
       countdownElement.src = payoffImage[1];
       payyOffMessageElement.innerHTML = `${choices[aiAttack - 1]} beats ${playerAttack}. You Lose!`
-      playYouLoseSfx();
+      
+      setTimeout(() => {
+        playYouLoseSfx();
+      }, 400);
 
     } else {
+      setCurrentRoundWinner('draw');
       countdownElement.src = payoffImage[2];
       payyOffMessageElement.innerHTML = `${playerAttack} draws with ${choices[aiAttack - 1]}. It's a draw!`
-      playItsATieSfx();
+      
+      setTimeout(() => {
+        playItsATieSfx();
+      }, 400);
     }
 
     typewriterContainer.classList.add('typewriter');
@@ -394,13 +411,9 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       typewriterContainer.classList.remove('typewriter');
     }, roundCooldownMS);
 
-    const countdownContainer = document.getElementsByClassName('countdown_container')[0];
     const countdownImage = document.getElementById('countdown');
 
-    // console.log("countdownContainer: " + countdownContainer)
-
     countdownImage.classList.add('hue-rotate');
-    // Remove the class after a delay
     setTimeout(() => {
       countdownImage.classList.remove('hue-rotate');
     }, roundCooldownMS);
@@ -483,9 +496,9 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
           <img className="player_1_portrait" src={portraitRock} alt="" />
         </div>
           <div className="score_container">
-              <div className="score"><StringEffect text={scores[0]}/></div>
+              <div ref={player1ScoreRef} className="score"><StringEffect text={scores[0]}/></div>
               <div className="separator"><StringEffect text=":"/></div>
-              <div className="score"><StringEffect text={scores[1]}/></div>
+              <div ref={player2ScoreRef} className="score"><StringEffect text={scores[1]}/></div>
           </div>
         <div className="player_2_nameplate_container">
           <div className="player_2_username"><StringEffect text="A.I."/></div>
