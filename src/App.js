@@ -31,10 +31,11 @@ const App = () => {
   const eel = window["eel"];
   eel.set_host("ws://localhost:8888");
   
+  const defaultVolume = .05;
 
   const playBGMusic = () => {
     const music = load(songs[songIndex], {
-      volume: 0.25,
+      volume: defaultVolume,
       loop: true,
     });
 
@@ -43,7 +44,7 @@ const App = () => {
     seek(randomPosition);
 
     play(music);
-    fade(0, .25, 1000);
+    fade(0, defaultVolume, 1000);
   }
   
   useEffect(() => {
