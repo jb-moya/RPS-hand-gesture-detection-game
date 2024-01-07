@@ -252,6 +252,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
           context.fillText(`${className} (${confidence})`, x1, y1 - 5);
 
           detectedClass = className;
+          console.log(chalk.green("detectedClass: " + detectedClass))
         }
         
         setYoloDetected({ value: detectedClass });
@@ -263,7 +264,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     
     console.log("random interval: " + randomInterval)
     const intervalId = setInterval(() => {
-      setRandomInterval(Math.floor(Math.random() * 5000) + 10);
+      setRandomInterval(Math.floor(Math.random() * 100) + 100);
       const captureFrameAsync = async () => {
         await captureFrame();
       };
