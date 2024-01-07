@@ -43,12 +43,12 @@ def detect(encoded_img, confThreshSelected, width, height):
 
             bounding_box_info = {
                 'class_name': classNames[cls],
-                'confidence': 1,
+                'confidence': confidence,
                 'coordinates': {
-                    'x1': 1,
-                    'y1': 1,
-                    'x2': 1,
-                    'y2': 1
+                    'x1': x1_disp,
+                    'y1': y1_disp,
+                    'x2': x2_disp,
+                    'y2': y2_disp
                 }
             }
 
