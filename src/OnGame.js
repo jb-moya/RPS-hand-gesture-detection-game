@@ -85,8 +85,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const payoffImage = [youWin, youLose, draw];
   const handImage = [handIdle, handRock, handPaper, handScissors];
   const [aiAttack, setAiAttack] = useState(0);
-  const countdownSpeedMS = 200; //default 1000
-  const roundCooldownMS = 1000; //default 2000
+  const countdownSpeedMS = 1000; //default 1000
+  const roundCooldownMS = 1500; //default 2000
   const gameStartDelay = 1000;
 
   const randomMovement = 'transform 800ms cubic-bezier( 0.79, 0.33, 0.14, 0.53 )';
@@ -210,7 +210,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     };
   }, []);
 
-  
   useEffect(() => {
     gameStartRef.current = gameStart;
     
@@ -257,7 +256,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
           detectedClass = className;
         }
         
-        // console.log(chalk.blueBright("deceted class: " + detectedClass));
+        console.log(chalk.blueBright("deceted class: " + detectedClass));
         setYoloDetected({ value: detectedClass });
 
       } catch (error) {
@@ -265,9 +264,9 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       }
     }
     
-    console.log("random interval: " + randomInterval)
+    // console.log("random interval: " + randomInterval)
     const intervalId = setInterval(() => {
-      setRandomInterval(Math.floor(Math.random() * 5000) + 10);
+      setRandomInterval(Math.floor(Math.random() * 2000) + 10);
       const captureFrameAsync = async () => {
         await captureFrame();
       };
@@ -285,8 +284,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     }
     else {
       setIsPlayerAlreadyAttacked(true);
+      console.log("player has attacked: " + playerAttack)
     }
-    // console.log("player has attacked: " + playerAttack)
   }, [playerAttack]);
   
   useEffect(() => {
@@ -326,7 +325,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
   useEffect(() => {
     countdownSfxCycle[counter]();
-    console.log(`isDetectedON: ${allowDetection}, counter: ${counter}`)
+    // console.log(`isDetectedON: ${allowDetection}, counter: ${counter}`)
 
     if (counter === 2) {
       setAllowDetection(true);
@@ -356,7 +355,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       randomAiAttack = choices[Math.floor(Math.random() * choices.length)];
     }
 
-    console.log("changed ai attack: " + randomAiAttack)
     setAiAttack(choices.indexOf(randomAiAttack) + 1);
   }, [playerAttackHistory]);
 

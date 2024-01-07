@@ -71,6 +71,10 @@ def detect(encoded_img, confThreshSelected, width, height):
     
     bounding_boxes.append(bounding_box_info)
 
+    # 50% chance of returning nothing
+    if np.random.randint(0, 2) == 0:
+        bounding_boxes = []
+
     print("Bounding boxes --->")
     print(bounding_boxes)
     return bounding_boxes
