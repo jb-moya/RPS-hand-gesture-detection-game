@@ -228,8 +228,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
         let frameData = canvas.toDataURL('image/jpeg');
         let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
-
-        // let detectedData = [{'class_name': 'paper', 'confidence': 1, 'coordinates': {'x1': 1, 'y1': 1, 'x2': 1, 'y2': 1}}]
         
         context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -253,11 +251,9 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
           context.fillStyle = "red";
           context.fillText(`${className} (${confidence})`, x1, y1 - 5);
 
-          // console.log("inside box iterates")
           detectedClass = className;
         }
         
-        // console.log(chalk.blueBright("deceted class: " + detectedClass));
         setYoloDetected({ value: detectedClass });
 
       } catch (error) {
