@@ -66,12 +66,12 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const difficulty = difficultySelected;
   const [counter, setCounter] = useState(0);
 
-  const [isDetectOn, setIsDetectOn] = useState(false);
+  const [allowDetection, setAllowDetection] = useState(false);
   
   const [yoloDetected, setYoloDetected] = useState({ value: '' });
 
   const [playerAttack, setPlayerAttack] = useState('');
-  const [isPlayerAlreadyAttacked, setIsPlayerAlreadyAttacked] = useState(true);
+  const [isPlayerAlreadyAttacked, setIsPlayerAlreadyAttacked] = useState(false);
 
   const choices = ['rock', 'paper', 'scissors'];
 
@@ -99,6 +99,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   
   const player1ScoreRef = useRef(null);
   const player2ScoreRef = useRef(null);
+
+  const [randomInterval, setRandomInterval] = useState(0);
 
   const [playYouLoseSfx] = useSound(youLoseSfx, {
     volume: defaultVolume,
@@ -212,7 +214,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   useEffect(() => {
     gameStartRef.current = gameStart;
     
-    const captureFrame = async () => {
+    const captureFrame = async() => {
       try {
         if (!gameStartRef.current) { return; }
         
@@ -227,7 +229,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
         let frameData = canvas.toDataURL('image/jpeg');
         let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
 
-        // let detectedData = []
+        // let detectedData = [{'class_name': 'paper', 'confidence': 1, 'coordinates': {'x1': 1, 'y1': 1, 'x2': 1, 'y2': 1}}]
         
         context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -251,45 +253,57 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
           context.fillStyle = "red";
           context.fillText(`${className} (${confidence})`, x1, y1 - 5);
 
-          console.log("inside box iterates")
+          // console.log("inside box iterates")
           detectedClass = className;
         }
         
-        console.log(chalk.blueBright("deceted class: " + detectedClass));
+        // console.log(chalk.blueBright("deceted class: " + detectedClass));
         setYoloDetected({ value: detectedClass });
 
       } catch (error) {
         console.error('Error in captureFrame:', error);
-      } finally {
-        setTimeout(captureFrame, 3000);
       }
     }
     
-    captureFrame();
-  }, [gameStart]); 
+    console.log("random interval: " + randomInterval)
+    const intervalId = setInterval(() => {
+      setRandomInterval(Math.floor(Math.random() * 5000) + 10);
+      const captureFrameAsync = async () => {
+        await captureFrame();
+      };
+
+      captureFrameAsync();
+    }, randomInterval); // Adjust the interval duration as needed
+
+    return () => clearInterval(intervalId);
+
+  }, [gameStart, randomInterval]); 
 
   useEffect(() => {
-    if (playerAttack === '') { return; }
-
-    setIsPlayerAlreadyAttacked(true);
+    if (playerAttack === '') { 
+      setIsPlayerAlreadyAttacked(false);  
+    }
+    else {
+      setIsPlayerAlreadyAttacked(true);
+    }
+    // console.log("player has attacked: " + playerAttack)
   }, [playerAttack]);
-
-  useEffect(() => {
-    console.log(chalk.green("yolo detection: " + yoloDetected.value))
-  }, [yoloDetected]);
   
   useEffect(() => {
-    if (isPlayerAlreadyAttacked === true) { return; }
+    if (!allowDetection) { return; }
+    if (isPlayerAlreadyAttacked) { return; }
+    if (yoloDetected.value === '') { return; }
     
-    console.log(chalk.green("isPlayerAlreadyAttacked: " + isPlayerAlreadyAttacked))
+    // console.log(chalk.green("isPlayerAlreadyAttacked: " + isPlayerAlreadyAttacked))
     setPlayerAttack(yoloDetected.value);
-  }, [yoloDetected, isPlayerAlreadyAttacked]);
+    setYoloDetected({ value: '' });
+  }, [allowDetection, yoloDetected, isPlayerAlreadyAttacked]);
 
   useEffect(() => {
     if (isPaused) { return; }
-    if (gameStart === false) { return; }
+    if (!gameStart) { return; }
 
-    if (!isDetectOn) {
+    if (!allowDetection) {
       payyOffMessageElement.innerHTML = ``;
     }
     
@@ -297,10 +311,10 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     const startInterval = () => {
       
       intervalId = setInterval(() => {
-        if (counter === 2 && playerAttack === '') { return; }
+        if (counter === 2 && playerAttack == '') { return; }
 
         setCounter((prevCounter) => (prevCounter + 1) % 3);
-      }, isDetectOn ? roundCooldownMS : countdownSpeedMS);
+      }, allowDetection ? roundCooldownMS : countdownSpeedMS);
     };
     
     startInterval();
@@ -308,34 +322,31 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     return () => {
       clearInterval(intervalId);
     };
-  }, [isDetectOn, counter, playerAttack, gameStart, isPaused]);
+  }, [allowDetection, counter, playerAttack, gameStart, isPaused]);
 
   useEffect(() => {
-    if (counter === 2 && playerAttack === '') {
-      setIsDetectOn(true);
+    countdownSfxCycle[counter]();
+    console.log(`isDetectedON: ${allowDetection}, counter: ${counter}`)
+
+    if (counter === 2) {
+      setAllowDetection(true);
     } else if (counter === 0) {
-      setIsPlayerAlreadyAttacked(false);
-      setIsDetectOn(false);
+      setAllowDetection(false);
       setPlayerAttack('');
-      // setAiAttack(0)
+      setAiAttack(0);
     }
     
-  }, [counter, playerAttack]);
-  
-  useEffect(() => {
-    countdownSfxCycle[counter]();
-    
-    // if (counter === 0) {setAiAttack(0);}
-    setAiAttack(0);
   }, [counter]);
 
   useEffect(() => {
     if (playerAttack === '') { return; }
-
+    
     setPlayerAttackHistory((prevPlayerAttackHistory) => [...prevPlayerAttackHistory, playerAttack]);
   }, [playerAttack]);
-
+  
   useEffect(() => {
+    if (playerAttackHistory.length === 0) { return; }
+
     let randomAiAttack;
     if (difficulty === 'hard') {
       let AiAttackProbabilities = adaptAiAttack(playerAttackHistory);
@@ -345,6 +356,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       randomAiAttack = choices[Math.floor(Math.random() * choices.length)];
     }
 
+    console.log("changed ai attack: " + randomAiAttack)
     setAiAttack(choices.indexOf(randomAiAttack) + 1);
   }, [playerAttackHistory]);
 
@@ -369,6 +381,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     if (playerAttack === '' || aiAttack === 0) { return; }
 
     let payoff = getPayoff(playerAttack, choices[aiAttack - 1]);
+
+    // console.log(`playerAttack: ${playerAttack}, aiAttack: ${choices[aiAttack - 1]}, payoff: ${payoff}`)
 
     if (payoff === 1) {
       setCurrentRoundWinner('player');

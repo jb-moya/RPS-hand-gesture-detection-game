@@ -48,7 +48,7 @@ const App = () => {
   }
   
   useEffect(() => {
-    playBGMusic();
+    // playBGMusic();
   }, [songIndex]);
 
   const changeSong = () => {
