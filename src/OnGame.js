@@ -214,6 +214,38 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   useEffect(() => {
     gameStartRef.current = gameStart;
     
+    const detectAndDrawBox = async(frameData) => {
+      let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
+      
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      canvas.style.display = 'block';
+
+      let detectedClass = '';
+
+      for (let box of detectedData) {
+        let { x1, y1, x2, y2 } = box.coordinates;
+        let className = box.class_name;
+        let confidence = box.confidence;
+
+        context.drawImage(video, x1, y1, x2 - x1, y2 - y1, x1, y1, x2 - x1, y2 - y1);
+        context.beginPath();
+        context.lineWidth = "2";
+        context.strokeStyle = "red";
+        context.rect(x1, y1, x2 - x1, y2 - y1);
+        context.stroke();
+
+        context.font = "16px Arial";
+        context.fillStyle = "red";
+        context.fillText(`${className} (${confidence})`, x1, y1 - 5);
+
+        detectedClass = className;
+        console.log(chalk.green("detectedClass: " + detectedClass))
+      }
+      
+      setYoloDetected({ value: detectedClass });
+    }
+
     const captureFrame = async() => {
       try {
         if (!gameStartRef.current) { return; }
@@ -227,52 +259,17 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
         canvas.style.display = 'none';
 
         let frameData = canvas.toDataURL('image/jpeg');
-        let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
-        
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        canvas.style.display = 'block';
-
-        let detectedClass = '';
-
-        for (let box of detectedData) {
-          let { x1, y1, x2, y2 } = box.coordinates;
-          let className = box.class_name;
-          let confidence = box.confidence;
-
-          context.drawImage(video, x1, y1, x2 - x1, y2 - y1, x1, y1, x2 - x1, y2 - y1);
-          context.beginPath();
-          context.lineWidth = "2";
-          context.strokeStyle = "red";
-          context.rect(x1, y1, x2 - x1, y2 - y1);
-          context.stroke();
-
-          context.font = "16px Arial";
-          context.fillStyle = "red";
-          context.fillText(`${className} (${confidence})`, x1, y1 - 5);
-
-          detectedClass = className;
-          console.log(chalk.green("detectedClass: " + detectedClass))
-        }
-        
-        setYoloDetected({ value: detectedClass });
+        await detectAndDrawBox(frameData);
 
       } catch (error) {
         console.error('Error in captureFrame:', error);
       }
+      finally {
+        captureFrame();
+      }
     }
     
-    console.log("random interval: " + randomInterval)
-    const intervalId = setInterval(() => {
-      setRandomInterval(Math.floor(Math.random() * 100) + 100);
-      const captureFrameAsync = async () => {
-        await captureFrame();
-      };
-
-      captureFrameAsync();
-    }, randomInterval); // Adjust the interval duration as needed
-
-    return () => clearInterval(intervalId);
+    captureFrame();
 
   }, [gameStart, randomInterval]); 
 
