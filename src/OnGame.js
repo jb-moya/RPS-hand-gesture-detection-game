@@ -213,38 +213,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   
   useEffect(() => {
     gameStartRef.current = gameStart;
-    
-    const detectAndDrawBox = async(frameData) => {
-      let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
-      
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      canvas.style.display = 'block';
-
-      let detectedClass = '';
-
-      for (let box of detectedData) {
-        let { x1, y1, x2, y2 } = box.coordinates;
-        let className = box.class_name;
-        let confidence = box.confidence;
-
-        context.drawImage(video, x1, y1, x2 - x1, y2 - y1, x1, y1, x2 - x1, y2 - y1);
-        context.beginPath();
-        context.lineWidth = "2";
-        context.strokeStyle = "red";
-        context.rect(x1, y1, x2 - x1, y2 - y1);
-        context.stroke();
-
-        context.font = "16px Arial";
-        context.fillStyle = "red";
-        context.fillText(`${className} (${confidence})`, x1, y1 - 5);
-
-        detectedClass = className;
-        console.log(chalk.green("detectedClass: " + detectedClass))
-      }
-      
-      setYoloDetected({ value: detectedClass });
-    }
 
     const captureFrame = async() => {
       try {
@@ -259,19 +227,52 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
         canvas.style.display = 'none';
 
         let frameData = canvas.toDataURL('image/jpeg');
-        await detectAndDrawBox(frameData);
+        
+        let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
+      
+        if (detectedData.length !== 0) {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+
+          canvas.style.display = 'block';
+
+          let detectedClass = '';
+          
+          let className = detectedData[0];
+          let confidence = detectedData[1];
+          let x1 = detectedData[2];
+          let y1 = detectedData[3];
+          let x2 = detectedData[4];
+          let y2 = detectedData[5];
+
+          context.drawImage(video, x1, y1, x2 - x1, y2 - y1, x1, y1, x2 - x1, y2 - y1);
+          context.beginPath();
+          context.lineWidth = "2";
+          context.strokeStyle = "red";
+          context.rect(x1, y1, x2 - x1, y2 - y1);
+          context.stroke();
+
+          context.font = "16px Arial";
+          context.fillStyle = "red";
+          context.fillText(`${className} (${confidence})`, x1, y1 - 5);
+
+          detectedClass = className;
+          console.log(chalk.green("detectedClass: " + detectedClass))
+
+          setYoloDetected({ value: detectedClass });
+        }
+
+        setTimeout(() => {
+          captureFrame();
+        }, 500);
 
       } catch (error) {
         console.error('Error in captureFrame:', error);
-      }
-      finally {
-        captureFrame();
       }
     }
     
     captureFrame();
 
-  }, [gameStart, randomInterval]); 
+  }, [gameStart]); 
 
   useEffect(() => {
     if (playerAttack === '') { 
@@ -289,6 +290,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     if (yoloDetected.value === '') { return; }
     
     // console.log(chalk.green("isPlayerAlreadyAttacked: " + isPlayerAlreadyAttacked))
+    console.log("yoloDetected: " + yoloDetected.value)
     setPlayerAttack(yoloDetected.value);
     setYoloDetected({ value: '' });
   }, [allowDetection, yoloDetected, isPlayerAlreadyAttacked]);

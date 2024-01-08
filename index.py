@@ -6,6 +6,7 @@ import math
 import numpy as np
 import base64
 import sys
+import time
 
 @eel.expose
 def hello():
@@ -22,8 +23,7 @@ def detect(encoded_img, confThreshSelected, width, height):
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
     results = model(img, max_det=1, conf=confThreshSelected)
-    bounding_boxes = []
-
+    
     for r in results:
         boxes = r.boxes
 
@@ -40,41 +40,15 @@ def detect(encoded_img, confThreshSelected, width, height):
             confidence = math.ceil((box.conf[0] * 100)) / 100
             print("Confidence --->", confidence)
 
+            # time.sleep(3)
 
-            bounding_box_info = {
-                'class_name': classNames[cls],
-                'confidence': confidence,
-                'coordinates': {
-                    'x1': x1_disp,
-                    'y1': y1_disp,
-                    'x2': x2_disp,
-                    'y2': y2_disp
-                }
-            }
+            bounding_box_info = [classNames[cls],confidence,x1_disp,y1_disp,x2_disp,y2_disp]
 
-            bounding_boxes.append(bounding_box_info)
+            print("Bounding boxes --->")
+            print(bounding_box_info)
+            return bounding_box_info
 
-    
-    # random class
-    # randomClass = classNames[np.random.randint(0, 3)]
-
-    # bounding_box_info = {
-    #             'class_name': randomClass,
-    #             'confidence': 1,
-    #             'coordinates': {
-    #                 'x1': 1,
-    #                 'y1': 1,
-    #                 'x2': 1,
-    #                 'y2': 1
-    #             }
-    #         }
-    
-    # bounding_boxes.append(bounding_box_info)
-
-    # print("Bounding boxes --->")
-    # print(bounding_boxes)
-    return bounding_boxes
-
+    return []
 
 if __name__ == '__main__':
     if sys.argv[1] == '--develop':
