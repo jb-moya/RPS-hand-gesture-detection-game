@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import player1Nameplate from './assets/new_png/nameplate_player.png';
 import player2Nameplate from './assets/new_png/nameplate_ai.png';
@@ -39,6 +39,8 @@ import damageSfx from './assets/audio/damage.mp3';
 import useSound from 'use-sound';
 import chalk from 'chalk';
 
+import AIPlayer from './AIPlayer.js';
+
 const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }) => {
   const weight = 640;
   const height = 480;
@@ -54,9 +56,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     scissors: { rock: -1, paper: 1, scissors: 0, },
   }
   
-  // testing, this comment will not be seen in the main branch 
-  // use useCallBack/UseMemo in the future
-
   const [playerAttackHistory, setPlayerAttackHistory] = useState([]);
   const [scores, setScores] = useState([0, 0]); // [player, ai]
   
@@ -85,8 +84,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const payoffImage = [youWin, youLose, draw];
   const handImage = [handIdle, handRock, handPaper, handScissors];
   const [aiAttack, setAiAttack] = useState(0);
-  const countdownSpeedMS = 200; //default 1000
-  const roundCooldownMS = 1000; //default 2000
+  const countdownSpeedMS = 800; //default 1000
+  const roundCooldownMS = 2000; //default 2000
   const gameStartDelay = 1000;
 
   const randomMovement = 'transform 800ms cubic-bezier( 0.79, 0.33, 0.14, 0.53 )';
@@ -100,39 +99,20 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const player1ScoreRef = useRef(null);
   const player2ScoreRef = useRef(null);
 
-  const [randomInterval, setRandomInterval] = useState(0);
+  const useSoundEffect = (sound, volume = defaultVolume) => {
+    return useSound(sound, {
+      volume: volume,
+    });
+  };
 
-  const [playYouLoseSfx] = useSound(youLoseSfx, {
-    volume: defaultVolume,
-  });
-
-  const [playYouWinSfx] = useSound(youWinSfx, {
-    volume: defaultVolume,
-  });
-
-  const [playItsATieSfx] = useSound(itsATieSfx, {
-    volume: defaultVolume,
-  });
-
-  const [playReadySfx] = useSound(readySfx, {
-    volume: defaultVolume,
-  });
-
-  const [playSetSfx] = useSound(setSfx, {
-    volume: defaultVolume,
-  });
-
-  const [playGoSfx] = useSound(goSfx, {
-    volume: defaultVolume,
-  });
-
-  const [playCriticalSfx] = useSound(criticalSfx, {
-    volume: 0.8,
-  });
-
-  const [playDamageSfx] = useSound(damageSfx, {
-    volume: 0.5,
-  });
+  const [playYouLoseSfx] = useSoundEffect(youLoseSfx);
+  const [playYouWinSfx] = useSoundEffect(youWinSfx);
+  const [playItsATieSfx] = useSoundEffect(itsATieSfx);
+  const [playReadySfx] = useSoundEffect(readySfx);
+  const [playSetSfx] = useSoundEffect(setSfx);
+  const [playGoSfx] = useSoundEffect(goSfx);
+  const [playCriticalSfx] = useSoundEffect(criticalSfx, 0.8);
+  const [playDamageSfx] = useSoundEffect(damageSfx, 0.5);
 
   const countdownSfxCycle = [playReadySfx, playSetSfx, playGoSfx];
 
@@ -148,32 +128,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       .catch(function (err) {
         console.error('Error accessing webcam:', err);
       });
-  }
-
-  const adaptAiAttack = (playerAttack) => {
-    let recentPlayerAttack = playerAttackHistory.slice(-5);
-    let counts = {rock: 1, paper: 1, scissors: 1};
-
-    for (let attack of recentPlayerAttack) {
-      counts[attack] += 1;
-    }
-
-    for (const choice in counts) {
-      const count = counts[choice];
-      if (count > 1) {
-        counts[choice] -= 1;
-      }
-    }
-
-    const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
-
-    const probabilities = [
-      counts.scissors / total,
-      counts.rock / total,
-      counts.paper / total,
-    ];
-
-    return probabilities;
   }
 
   const getPayoff = (playerAttack, aiAttack) => {
@@ -225,7 +179,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
         context.drawImage(video, 0, 0, weight, height);
 
         canvas.style.display = 'none';
-
+ 
         let frameData = canvas.toDataURL('image/jpeg');
         
         let detectedData = await eel.detect(frameData, confThreshSelected, weight, height)();
@@ -260,6 +214,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
           setYoloDetected({ value: detectedClass });
         }
+
+        setYoloDetected({ value: '' });
 
         setTimeout(() => {
           captureFrame();
@@ -340,19 +296,20 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     setPlayerAttackHistory((prevPlayerAttackHistory) => [...prevPlayerAttackHistory, playerAttack]);
   }, [playerAttack]);
   
+  
   useEffect(() => {
     if (playerAttackHistory.length === 0) { return; }
 
     let randomAiAttack;
     if (difficulty === 'hard') {
-      let AiAttackProbabilities = adaptAiAttack(playerAttackHistory);
-      randomAiAttack = choices[weightedRandom(AiAttackProbabilities)];
+      let AiAttackProbabilities = AIPlayer.adaptAiAttack(playerAttackHistory);
+      randomAiAttack = choices[AIPlayer.weightedRandom(AiAttackProbabilities)];
     }
     else {
-      randomAiAttack = choices[Math.floor(Math.random() * choices.length)];
+      randomAiAttack = AIPlayer.randomAttack();
     }
 
-    console.log("changed ai attack: " + randomAiAttack)
+    // console.log("changed ai attack: " + randomAiAttack)
     setAiAttack(choices.indexOf(randomAiAttack) + 1);
   }, [playerAttackHistory]);
 
@@ -377,8 +334,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     if (playerAttack === '' || aiAttack === 0) { return; }
 
     let payoff = getPayoff(playerAttack, choices[aiAttack - 1]);
-
-    // console.log(`playerAttack: ${playerAttack}, aiAttack: ${choices[aiAttack - 1]}, payoff: ${payoff}`)
 
     if (payoff === 1) {
       setCurrentRoundWinner('player');
@@ -448,34 +403,21 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
   }, [playerAttack, aiAttack]);
 
-  const weightedRandom = (probabilities) => {
-    const total = probabilities.reduce((acc, prob) => acc + prob, 0);
-    const randomValue = Math.random() * total;
-
-    let cumulativeProbability = 0;
-    for (let i = 0; i < probabilities.length; i++) {
-      cumulativeProbability += probabilities[i];
-      if (randomValue < cumulativeProbability) {
-        return i; // Return the index of the chosen element
-      }
-    }
-
-    // This should not happen under normal circumstances, but just in case
-    return probabilities.length - 1;
-  }
-
   useEffect (() => {
     const countdownContainer = document.getElementsByClassName('countdown_container')[0];
 
     countdownContainer.style.transition = randomMovement;
     countdownContainer.style.opacity = 0;
 
-    let randomX = Math.floor(Math.random() * 10) + 45;
-    let randomY = Math.floor(Math.random() * 10) + 45;
+    let randomX = Math.floor(Math.random() * 30) + 40;
+    let randomY = Math.floor(Math.random() * 30) + 40;
 
     countdownContainer.style.left = `${randomX}%`;
     countdownContainer.style.top = `${randomY}%`;
 
+    /* offsetHeight is a technique used to make sure that the initial styles are applied
+      before the subsequent styles with transitions, ensuring that the transition effect starts
+      from the correct state. It's a workaround to deal with the way browsers optimize style changes. - chatGPT */
     countdownContainer.offsetHeight;
     
     countdownContainer.style.transition = `transform 400ms, left 200ms, top 200ms, opacity 200ms cubic-bezier( 0.79, 0.33, 0.14, 0.53 )`;
@@ -487,7 +429,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
   const togglePauseGame = () => {
     setIsPaused(prevIsPaused => !prevIsPaused);
-    console.log("Toggling pause game!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
   }
 
   const changeConfThresh = (newConfThresh) => {

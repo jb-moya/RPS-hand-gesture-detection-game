@@ -7,6 +7,7 @@ import numpy as np
 import base64
 import sys
 import time
+import os
 
 @eel.expose
 def hello():
@@ -23,7 +24,8 @@ def detect(encoded_img, confThreshSelected, width, height):
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
     results = model(img, max_det=1, conf=confThreshSelected)
-    
+    bounding_box_info = []
+
     for r in results:
         boxes = r.boxes
 
@@ -48,7 +50,23 @@ def detect(encoded_img, confThreshSelected, width, height):
             print(bounding_box_info)
             return bounding_box_info
 
-    return []
+    print("NO BOUNDING BOXES DETECTED")
+    print("NO BOUNDING BOXES DETECTED")
+
+    # randomClass = classNames[np.random.randint(0,3)]
+    # bounding_box_info = [randomClass,1,1,1,1,1]
+
+    # # 50% chance of getting a random class
+    # if np.random.rand() < 0.1:
+    #     # clear terminal
+    #     os.system('cls')
+    #     print("Bounding boxes --->")
+    #     print(bounding_box_info)
+    #     return bounding_box_info
+    
+    return bounding_box_info
+
+    # return []
 
 if __name__ == '__main__':
     if sys.argv[1] == '--develop':
