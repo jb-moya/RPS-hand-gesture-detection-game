@@ -97,7 +97,7 @@ const App = () => {
       setCharacter(character + 1);
     }
 
-    console.log("currecnt character selected: " + character)
+    console.log("current character selected: " + character)
   }
 
   const mainMenu = {

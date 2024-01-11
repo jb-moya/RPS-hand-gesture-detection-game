@@ -50,23 +50,25 @@ def detect(encoded_img, confThreshSelected, width, height):
             print(bounding_box_info)
             return bounding_box_info
 
-    print("NO BOUNDING BOXES DETECTED")
-    print("NO BOUNDING BOXES DETECTED")
+    # print("NO BOUNDING BOXES DETECTED")
+    # print("NO BOUNDING BOXES DETECTED")
 
     # randomClass = classNames[np.random.randint(0,3)]
     # bounding_box_info = [randomClass,1,1,1,1,1]
 
     # # 50% chance of getting a random class
-    # if np.random.rand() < 0.1:
+    # if np.random.rand() < 0.5:
     #     # clear terminal
     #     os.system('cls')
     #     print("Bounding boxes --->")
     #     print(bounding_box_info)
     #     return bounding_box_info
     
-    return bounding_box_info
+    # # return bounding_box_info
 
-    # return []
+    # os.system('cls')
+    # print("--- Nothing ---")
+    return bounding_box_info
 
 if __name__ == '__main__':
     if sys.argv[1] == '--develop':

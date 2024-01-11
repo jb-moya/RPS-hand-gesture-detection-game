@@ -1,1 +1,1 @@
-export const eel = window["eel"];
+// export const eel = window["eel"];

@@ -1,54 +1,51 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import player1Nameplate from './assets/new_png/nameplate_player.png';
+import handScissors from './assets/new_png/RPS_hand_scissors.png';
+import countdownReady from './assets/new_png/countdown_ready.png';
 import player2Nameplate from './assets/new_png/nameplate_ai.png';
+import portraitRock from './assets/new_png/portrait_rock.png';
+import countdownSet from './assets/new_png/countdown_set.png';
 import stagePlayer from './assets/new_png/stage_player.png';
+import countdownGo from './assets/new_png/countdown_go.png';
+import handPaper from './assets/new_png/RPS_hand_paper.png';
+import pauseButton from './assets/new_png/button_pause.png';
+import portraitAi from './assets/new_png/portrait_ai.png';
+import handRock from './assets/new_png/RPS_hand_rock.png';
+import handIdle from './assets/gif/RPS_hand_idle.gif';
+import itsATieSfx from './assets/audio/its_a_tie.ogg';
+import criticalSfx from './assets/audio/critical.ogg';
+import youLoseSfx from './assets/audio/you_lose.ogg';
 import stageAI from './assets/new_png/stage_ai.png';
 import textbox from './assets/new_png/textbox.png';
-
-import countdownReady from './assets/new_png/countdown_ready.png';
-import countdownSet from './assets/new_png/countdown_set.png';
-import countdownGo from './assets/new_png/countdown_go.png';
-
-import handIdle from './assets/gif/RPS_hand_idle.gif';
-import handRock from './assets/new_png/RPS_hand_rock.png';
-import handPaper from './assets/new_png/RPS_hand_paper.png';
-import handScissors from './assets/new_png/RPS_hand_scissors.png';
 import youLose from './assets/new_png/youlose.png';
-import youWin from './assets/new_png/youwin.png';
-import draw from './assets/new_png/draw.png';
-import portraitRock from './assets/new_png/portrait_rock.png';
-import portraitAi from './assets/new_png/portrait_ai.png';
-import pauseButton from './assets/new_png/button_pause.png';
-import StringEffect from "./StringEffect.js";
-
-import Pause from "./Pause.js";
-import Button from "./Button.js";
-
-import youLoseSfx from './assets/audio/you_lose.ogg';
 import youWinSfx from './assets/audio/you_win.ogg';
-import itsATieSfx from './assets/audio/its_a_tie.ogg';
-
+import damageSfx from './assets/audio/damage.mp3';
+import youWin from './assets/new_png/youwin.png';
 import readySfx from './assets/audio/ready.ogg';
+import draw from './assets/new_png/draw.png';
+import StringEffect from "./StringEffect.js";
 import setSfx from './assets/audio/set.ogg';
 import goSfx from './assets/audio/go.ogg';
-
-import criticalSfx from './assets/audio/critical.ogg';
-import damageSfx from './assets/audio/damage.mp3';
-
-import useSound from 'use-sound';
-import chalk from 'chalk';
-
 import AIPlayer from './AIPlayer.js';
+import useSound from 'use-sound';
+import Button from "./Button.js";
+import Pause from "./Pause.js";
+import chalk from 'chalk';
 
 const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }) => {
   const weight = 640;
   const height = 480;
-  const enable_video_inference = true; 
-
-  const defaultVolume = .4;
+  const enable_video_inference = true;
+  const maximumHistoryLength = 5;
+  const defaultVolume = .05;
+  const exaggeratedVolume = .1;
+  const countdownSpeedMS = 500; //default 1000
+  const roundCooldownMS = 1000; //default 2000
+  const gameStartDelay = 1000;
 
   let character = characterSelectedMain;
+  const difficulty = difficultySelected;
 
   const payoffMatrix = {
     rock: { rock: 0, paper: -1, scissors: 1, },
@@ -62,7 +59,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const [gameStart, setGameStart] = useState(false);
   const gameStartRef = useRef();
   
-  const difficulty = difficultySelected;
   const [counter, setCounter] = useState(0);
 
   const [allowDetection, setAllowDetection] = useState(false);
@@ -84,14 +80,11 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const payoffImage = [youWin, youLose, draw];
   const handImage = [handIdle, handRock, handPaper, handScissors];
   const [aiAttack, setAiAttack] = useState(0);
-  const countdownSpeedMS = 800; //default 1000
-  const roundCooldownMS = 2000; //default 2000
-  const gameStartDelay = 1000;
 
   const randomMovement = 'transform 800ms cubic-bezier( 0.79, 0.33, 0.14, 0.53 )';
   const countdownElement = document.getElementById('countdown');
   const typewriterContainer = document.getElementsByClassName('typewriter_container')[0];
-  const payyOffMessageElement = document.getElementsByClassName('payoff_message')[0];
+  const payOffMessageElement = document.getElementsByClassName('payoff_message')[0];
 
   const player1PortraitImage = document.getElementsByClassName('player_1_portrait')[0];
   const player2PortraitImage = document.getElementsByClassName('player_2_portrait')[0];
@@ -111,8 +104,8 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
   const [playReadySfx] = useSoundEffect(readySfx);
   const [playSetSfx] = useSoundEffect(setSfx);
   const [playGoSfx] = useSoundEffect(goSfx);
-  const [playCriticalSfx] = useSoundEffect(criticalSfx, 0.8);
-  const [playDamageSfx] = useSoundEffect(damageSfx, 0.5);
+  const [playCriticalSfx] = useSoundEffect(criticalSfx, exaggeratedVolume);
+  const [playDamageSfx] = useSoundEffect(damageSfx, exaggeratedVolume);
 
   const countdownSfxCycle = [playReadySfx, playSetSfx, playGoSfx];
 
@@ -164,7 +157,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     };
   }, []);
 
-  
   useEffect(() => {
     gameStartRef.current = gameStart;
 
@@ -213,9 +205,9 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
           console.log(chalk.green("detectedClass: " + detectedClass))
 
           setYoloDetected({ value: detectedClass });
+        } else {
+          setYoloDetected({ value: '' });
         }
-
-        setYoloDetected({ value: '' });
 
         setTimeout(() => {
           captureFrame();
@@ -237,7 +229,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     else {
       setIsPlayerAlreadyAttacked(true);
     }
-    // console.log("player has attacked: " + playerAttack)
   }, [playerAttack]);
   
   useEffect(() => {
@@ -245,7 +236,6 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     if (isPlayerAlreadyAttacked) { return; }
     if (yoloDetected.value === '') { return; }
     
-    // console.log(chalk.green("isPlayerAlreadyAttacked: " + isPlayerAlreadyAttacked))
     console.log("yoloDetected: " + yoloDetected.value)
     setPlayerAttack(yoloDetected.value);
     setYoloDetected({ value: '' });
@@ -256,7 +246,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     if (!gameStart) { return; }
 
     if (!allowDetection) {
-      payyOffMessageElement.innerHTML = ``;
+      payOffMessageElement.innerHTML = ``;
     }
     
     let intervalId = null;
@@ -292,8 +282,11 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
   useEffect(() => {
     if (playerAttack === '') { return; }
-    
-    setPlayerAttackHistory((prevPlayerAttackHistory) => [...prevPlayerAttackHistory, playerAttack]);
+  
+    setPlayerAttackHistory((prevPlayerAttackHistory) => {
+      const updatedHistory = [playerAttack, ...prevPlayerAttackHistory.slice(0, maximumHistoryLength - 1)];
+      return updatedHistory;
+    });
   }, [playerAttack]);
   
   
@@ -356,7 +349,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
 
       player2PortraitImage.style.animation = "blink 1s forwards";
       countdownElement.src = payoffImage[0];
-      payyOffMessageElement.innerHTML = `${playerAttack} beats ${choices[aiAttack - 1]}. You Win!`
+      payOffMessageElement.innerHTML = `${playerAttack} beats ${choices[aiAttack - 1]}. You Win!`
       
       setTimeout(() => {
         playYouWinSfx();
@@ -369,7 +362,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
       player1PortraitImage.style.animation = "blink 1s forwards";
 
       countdownElement.src = payoffImage[1];
-      payyOffMessageElement.innerHTML = `${choices[aiAttack - 1]} beats ${playerAttack}. You Lose!`
+      payOffMessageElement.innerHTML = `${choices[aiAttack - 1]} beats ${playerAttack}. You Lose!`
       
       setTimeout(() => {
         playYouLoseSfx();
@@ -378,7 +371,7 @@ const OnGame = ({ mainFunction, characterSelectedMain, difficultySelected, eel }
     } else {
       setCurrentRoundWinner('draw');
       countdownElement.src = payoffImage[2];
-      payyOffMessageElement.innerHTML = `${playerAttack} draws with ${choices[aiAttack - 1]}. It's a draw!`
+      payOffMessageElement.innerHTML = `${playerAttack} draws with ${choices[aiAttack - 1]}. It's a draw!`
       
       setTimeout(() => {
         playItsATieSfx();
