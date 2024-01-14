@@ -4,7 +4,11 @@ import player1Nameplate from "./assets/new_png/nameplate_player.png";
 import handScissors from "./assets/new_png/RPS_hand_scissors.png";
 import countdownReady from "./assets/new_png/countdown_ready.png";
 import player2Nameplate from "./assets/new_png/nameplate_ai.png";
+
 import portraitRock from "./assets/new_png/portrait_rock.png";
+import portraitPaper from "./assets/new_png/portrait_paper.png";
+import portraitScissors from "./assets/new_png/portrait_scissors.png";
+
 import countdownSet from "./assets/new_png/countdown_set.png";
 import stagePlayer from "./assets/new_png/stage_player.png";
 import countdownGo from "./assets/new_png/countdown_go.png";
@@ -529,7 +533,7 @@ const OnGame = ({
                     />
                     <img
                         className="player_1_portrait"
-                        src={portraitRock}
+                        src={characterSelectedMain === 0 ? portraitRock : characterSelectedMain === 1 ? portraitPaper : portraitScissors}
                         alt=""
                     />
                 </div>
