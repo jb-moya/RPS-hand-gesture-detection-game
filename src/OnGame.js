@@ -239,7 +239,6 @@ const OnGame = ({
                     );
 
                     detectedClass = className;
-                    console.log(chalk.green("detectedClass: " + detectedClass));
 
                     setYoloDetected({ value: detectedClass });
                 } else {
@@ -276,7 +275,7 @@ const OnGame = ({
             return;
         }
 
-        console.log("yoloDetected: " + yoloDetected.value);
+        // console.log("yoloDetected: " + yoloDetected.value);
         setPlayerAttack(yoloDetected.value);
         setYoloDetected({ value: "" });
     }, [allowDetection, yoloDetected, isPlayerAlreadyAttacked]);
@@ -316,7 +315,7 @@ const OnGame = ({
 
     useEffect(() => {
         countdownSfxCycle[counter]();
-        console.log(`isDetectedON: ${allowDetection}, counter: ${counter}`);
+        // console.log(`isDetectedON: ${allowDetection}, counter: ${counter}`);
 
         if (counter === 2) {
             setAllowDetection(true);
@@ -489,7 +488,7 @@ const OnGame = ({
             return;
         }
 
-        console.log("newConfThresh: " + newConfThresh);
+        // console.log("newConfThresh: " + newConfThresh);
         setConfThreshSelected(newConfThresh);
     };
 

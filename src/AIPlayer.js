@@ -16,8 +16,8 @@ export default class AIPlayer {
     };
 
     static adaptAiAttack = (playerAttackHistory) => {
-        console.log("playerAttackHistory", playerAttackHistory);
-        let counts = { rock: 1, paper: 1, scissors: 1 };
+        // console.log("playerAttackHistory", playerAttackHistory);
+        const counts = { rock: 1, paper: 1, scissors: 1 };
 
         for (let attack of playerAttackHistory) {
             counts[attack] += 1;
@@ -41,7 +41,7 @@ export default class AIPlayer {
             counts.paper / total,
         ];
 
-        console.log("probabilities", probabilities);
+        // console.log("probabilities", probabilities);
 
         return probabilities;
     };

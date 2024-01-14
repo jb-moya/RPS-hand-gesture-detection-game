@@ -68,7 +68,7 @@ def detect(encoded_img, confThreshSelected, width, height):
 
     # os.system('cls')
     # print("--- Nothing ---")
-    return bounding_box_info
+    return []
 
 if __name__ == '__main__':
     if sys.argv[1] == '--develop':
