@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useReducer } from "react";
 import "./App.css";
 import player1Nameplate from "./assets/new_png/nameplate_player.png";
 import handScissors from "./assets/new_png/RPS_hand_scissors.png";
@@ -533,7 +533,13 @@ const OnGame = ({
                     />
                     <img
                         className="player_1_portrait"
-                        src={characterSelectedMain === 0 ? portraitRock : characterSelectedMain === 1 ? portraitPaper : portraitScissors}
+                        src={
+                            characterSelectedMain === 0
+                                ? portraitRock
+                                : characterSelectedMain === 1
+                                ? portraitPaper
+                                : portraitScissors
+                        }
                         alt=""
                     />
                 </div>
@@ -566,8 +572,13 @@ const OnGame = ({
             </div>
 
             <div className="stage_container">
-                <video id="webcam" width="640" height="480" autoPlay></video>
-                <canvas id="canvas" width="640" height="480"></canvas>
+                <video
+                    id="webcam"
+                    width={weight}
+                    height={height}
+                    autoPlay
+                ></video>
+                <canvas id="canvas" width={weight} height={height}></canvas>
 
                 <img className="stage_player" src={stagePlayer} alt="" />
 
