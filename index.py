@@ -23,46 +23,46 @@ def detect(encoded_img, confThreshSelected, width, height):
     nparr = np.frombuffer(img_data, np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
-    results = model(img, max_det=1, conf=confThreshSelected)
+    # results = model(img, max_det=1, conf=confThreshSelected)
     bounding_box_info = []
 
-    for r in results:
-        boxes = r.boxes
+    # for r in results:
+    #     boxes = r.boxes
 
-        for box in boxes:
-            x1, y1, x2, y2 = box.xyxy[0]
-            x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+    #     for box in boxes:
+    #         x1, y1, x2, y2 = box.xyxy[0]
+    #         x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
 
-            x1_disp, y1_disp = int(x1 * (width / img.shape[1])), int(y1 * (height / img.shape[0]))
-            x2_disp, y2_disp = int(x2 * (width / img.shape[1])), int(y2 * (height / img.shape[0]))
+    #         x1_disp, y1_disp = int(x1 * (width / img.shape[1])), int(y1 * (height / img.shape[0]))
+    #         x2_disp, y2_disp = int(x2 * (width / img.shape[1])), int(y2 * (height / img.shape[0]))
 
-            cls = int(box.cls[0])
-            print("Class name -->", classNames[cls])
+    #         cls = int(box.cls[0])
+    #         print("Class name -->", classNames[cls])
 
-            confidence = math.ceil((box.conf[0] * 100)) / 100
-            print("Confidence --->", confidence)
+    #         confidence = math.ceil((box.conf[0] * 100)) / 100
+    #         print("Confidence --->", confidence)
 
-            # time.sleep(3)
+    #         # time.sleep(3)
 
-            bounding_box_info = [classNames[cls],confidence,x1_disp,y1_disp,x2_disp,y2_disp]
+    #         bounding_box_info = [classNames[cls],confidence,x1_disp,y1_disp,x2_disp,y2_disp]
 
-            print("Bounding boxes --->")
-            print(bounding_box_info)
-            return bounding_box_info
+    #         print("Bounding boxes --->")
+    #         print(bounding_box_info)
+    #         return bounding_box_info
 
     # print("NO BOUNDING BOXES DETECTED")
     # print("NO BOUNDING BOXES DETECTED")
 
-    # randomClass = classNames[np.random.randint(0,3)]
-    # bounding_box_info = [randomClass,1,1,1,1,1]
+    randomClass = classNames[np.random.randint(0,3)]
+    bounding_box_info = [randomClass,1,1,1,1,1]
 
-    # # 50% chance of getting a random class
-    # if np.random.rand() < 0.5:
-    #     # clear terminal
-    #     os.system('cls')
-    #     print("Bounding boxes --->")
-    #     print(bounding_box_info)
-    #     return bounding_box_info
+    # 50% chance of getting a random class
+    if np.random.rand() < 0.5:
+        # clear terminal
+        os.system('cls')
+        print("Bounding boxes --->")
+        print(bounding_box_info)
+        return bounding_box_info
     
     # # return bounding_box_info
 

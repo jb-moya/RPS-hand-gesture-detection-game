@@ -115,7 +115,7 @@ body {
 }
 .App.overlay .pause_menu_container {
   opacity: 0;
-  animation: ulxwvgc 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy5z6 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   background-image: url("./assets/new_png/pause_menu.png");
   background-size: cover;
   width: 600px;
@@ -135,7 +135,7 @@ body {
   padding: 20px;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
 }
-@keyframes ulxwvgc {
+@keyframes ulyy5z6 {
   0% {
     opacity: 1;
     transform: translateY(-500px);
@@ -147,7 +147,7 @@ body {
 }
 .App.overlay .pause_menu_container .pause_button {
   opacity: 0;
-  animation: ulxwvh6 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy5zo 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   margin: 10px 0;
   width: 100px;
   height: 100px;
@@ -157,7 +157,7 @@ body {
   align-items: center;
   cursor: pointer;
 }
-@keyframes ulxwvh6 {
+@keyframes ulyy5zo {
   0% {
     opacity: 1;
     transform: translateY(500px);
@@ -219,9 +219,30 @@ body {
   align-items: center;
   position: relative;
 }
+.stage_container #webcam {
+  transform: scale(0.85);
+  transform-origin: 0 0;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.stage_container #canvas {
+  transform: scale(0.85);
+  transform-origin: top left;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 .stage_container .stage_player {
+  width: 640px;
+  height: 480px;
+  transform-origin: top left;
+}
+.stage_container .stage_player_container {
   opacity: 0;
-  animation: ulxwvhg 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy60b 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   position: absolute;
   top: 0;
   left: 0;
@@ -230,7 +251,7 @@ body {
   transform: scale(0.85);
   transform-origin: top left;
 }
-@keyframes ulxwvhg {
+@keyframes ulyy60b {
   0% {
     opacity: 1;
     transform: translateX(-1500px);
@@ -242,15 +263,16 @@ body {
 }
 .stage_container .stage_ai_container {
   opacity: 0;
-  animation: ulxwvi2 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy60l 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   position: absolute;
+  top: 0;
   right: 0;
   width: 640px;
   height: 480px;
   transform: scale(0.85);
   transform-origin: top right;
 }
-@keyframes ulxwvi2 {
+@keyframes ulyy60l {
   0% {
     opacity: 1;
     transform: translateX(1500px);
@@ -261,6 +283,7 @@ body {
   }
 }
 .stage_container .stage_ai {
+  position: absolute;
   width: 640px;
   height: 480px;
   transform-origin: top right;
@@ -282,14 +305,14 @@ body {
 
 .countdown_container {
   opacity: 0;
-  animation: ulxwvi5 0.5s cubic-bezier(0.17, -0.02, 0, 1.22);
+  animation: ulyy60v 0.5s cubic-bezier(0.17, -0.02, 0, 1.22);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   transform-origin: center center;
 }
-@keyframes ulxwvi5 {
+@keyframes ulyy60v {
   0% {
     opacity: 1;
     transform: translateY(1000px);
@@ -298,21 +321,6 @@ body {
     opacity: 1;
     transform: translatetranslate(0);
   }
-}
-
-#webcam {
-  transform: scale(0.85);
-  transform-origin: 0 0;
-  border-top-right-radius: 40px;
-  border-bottom-right-radius: 40px;
-}
-
-#canvas {
-  transform: scale(0.85);
-  transform-origin: top left;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .background-container {
@@ -379,10 +387,10 @@ body {
 }
 .nameplate_container .player_1_username {
   opacity: 0;
-  animation: ulxwvj1 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy61o 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   left: 170px;
 }
-@keyframes ulxwvj1 {
+@keyframes ulyy61o {
   0% {
     opacity: 1;
     transform: translateX(-200px);
@@ -394,10 +402,10 @@ body {
 }
 .nameplate_container .player_2_username {
   opacity: 0;
-  animation: ulxwvjc 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy62n 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   right: 170px;
 }
-@keyframes ulxwvjc {
+@keyframes ulyy62n {
   0% {
     opacity: 1;
     transform: translateX(200px);
@@ -421,12 +429,12 @@ body {
 }
 .nameplate_container .player_2_portrait {
   opacity: 0;
-  animation: ulxwvjn 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy634 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   transform-origin: top right;
   right: 5px;
   margin: 20px 20px 0 0;
 }
-@keyframes ulxwvjn {
+@keyframes ulyy634 {
   0% {
     opacity: 1;
     transform: translateX(200px);
@@ -438,12 +446,12 @@ body {
 }
 .nameplate_container .player_1_portrait {
   opacity: 0;
-  animation: ulxwvkm 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy63u 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   transform-origin: top left;
   left: 5px;
   margin: 20px 0 0 20px;
 }
-@keyframes ulxwvkm {
+@keyframes ulyy63u {
   0% {
     opacity: 1;
     transform: translateX(-200px);
@@ -457,9 +465,9 @@ body {
 .player_1_nameplate {
   padding: 20px 0 0 20px;
   opacity: 0;
-  animation: ulxwvkx 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy64r 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
 }
-@keyframes ulxwvkx {
+@keyframes ulyy64r {
   0% {
     opacity: 1;
     transform: translateX(-500px);
@@ -473,9 +481,9 @@ body {
 .player_2_nameplate {
   padding: 20px 20px 0 0;
   opacity: 0;
-  animation: ulxwvlx 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy657 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
 }
-@keyframes ulxwvlx {
+@keyframes ulyy657 {
   0% {
     opacity: 1;
     transform: translateX(500px);
@@ -494,14 +502,14 @@ body {
 
 .score_container {
   opacity: 0;
-  animation: ulxwvmq 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy659 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 70px;
 }
-@keyframes ulxwvmq {
+@keyframes ulyy659 {
   0% {
     opacity: 1;
     transform: translateY(-500px);
@@ -520,7 +528,7 @@ body {
 
 .payoff_message_container {
   opacity: 0;
-  animation: ulxwvn7 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy65h 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   margin: 35px 0 0 0;
   height: 115px;
   margin-top: auto;
@@ -529,7 +537,7 @@ body {
   align-items: center;
   position: relative;
 }
-@keyframes ulxwvn7 {
+@keyframes ulyy65h {
   0% {
     opacity: 1;
     transform: translateY(500px);
@@ -571,7 +579,7 @@ body {
 
 .main_menu_container {
   opacity: 0;
-  animation: ulxwvni 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy65m 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   background-image: url("./assets/new_png/menu.png");
   background-size: cover;
   width: 800px;
@@ -579,7 +587,7 @@ body {
   position: relative;
   margin-left: auto;
 }
-@keyframes ulxwvni {
+@keyframes ulyy65m {
   0% {
     opacity: 1;
     transform: translateY(-500px);
@@ -598,6 +606,9 @@ body {
   display: flex;
   cursor: pointer;
 }
+.main_menu_container .round_count {
+  font-size: 25px;
+}
 
 .menu_and_title_container {
   display: flex;
@@ -609,6 +620,15 @@ body {
 }
 
 @media screen and (max-width: 1080px) {
+  .stage_container #webcam,
+  .stage_container #canvas {
+    top: -80px;
+    left: -10px;
+  }
+  .stage_container .stage_player_container {
+    top: -80px;
+    left: -10px;
+  }
   .stage_container .stage_player {
     top: -80px;
     left: -10px;
@@ -657,6 +677,9 @@ body {
   }
   .App.overlay .pause_menu_container .resume_main_menu .button_text {
     font-size: 15px;
+  }
+  .countdown_container img {
+    filter: drop-shadow(-9px 18px 3px #000000);
   }
   .nameplate_container .player_1_nameplate,
   .nameplate_container .player_2_nameplate {
@@ -725,6 +748,7 @@ body {
   }
   .nameplate_container .score_container {
     font-size: 50px;
+    height: 130px;
   }
   .nameplate_container .score_container .score {
     min-width: 1.5em;
@@ -733,22 +757,76 @@ body {
 @media screen and (min-width: 0px) and (max-width: 900px) {
   .menu_and_title_container {
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
   }
   .menu_and_title_container .main_title {
+    height: 300px;
+    padding-right: 100px;
     padding-left: 0;
     transform: rotate(90deg);
+  }
+  .menu_and_title_container .button_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .menu_and_title_container .button_container .button_image {
+    padding: 3px;
   }
   .main_menu_container {
     order: 2;
     width: 500px;
     height: 400px;
+    margin-bottom: 300px;
   }
   .main_title {
     order: 1;
     width: 200px;
     height: auto;
   }
+}
+.title_card_AI .title_card_character {
+  left: 1200px;
+}
+.title_card_AI .image_and_button_container {
+  left: 200px;
+}
+
+.title_card_player .title_card_character {
+  left: 200px;
+}
+.title_card_player .image_and_button_container {
+  left: 800px;
+}
+
+.title_card {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+}
+.title_card .title_card_character {
+  z-index: 9999;
+  position: absolute;
+  top: 500px;
+  scale: 2.5;
+}
+.title_card .image_and_button_container {
+  position: absolute;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+}
+.title_card .image_and_button_container .title_card_image {
+  top: 50px;
+  left: 800px;
+  z-index: 10002;
+  scale: 0.9;
+}
+.title_card .image_and_button_container .buttons_container .button_container {
+  display: flex;
+  justify-content: center;
+  position: relative;
 }
 @media screen and (max-width: 1250px) {
   .main_menu_container .character_selection .button_container .button_image.character_option {
@@ -784,11 +862,11 @@ body {
 }
 .main_title {
   opacity: 0;
-  animation: ulxwvnl 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
+  animation: ulyy65z 0.5s cubic-bezier(0.17, -0.02, 0, 1.22) forwards;
   padding-left: 80px;
   transform: scale(1.2);
 }
-@keyframes ulxwvnl {
+@keyframes ulyy65z {
   0% {
     opacity: 1;
     transform: translateX(500px);
@@ -801,7 +879,7 @@ body {
 
 .character_selection {
   display: flex;
-  padding: 30px 0 30px;
+  padding: 30px 0 0 0;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;

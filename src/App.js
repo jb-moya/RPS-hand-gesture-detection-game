@@ -10,9 +10,9 @@ import Button from "./Button.js";
 import playButton from "./assets/new_png/button2.png";
 import mainTitle from "./assets/new_png/main_title.png";
 
-import characterPaper from "./assets/new_png/char_paper_128.png";
-import characterRock from "./assets/new_png/char_rock_128.png";
-import characterScissors from "./assets/new_png/char_scissors_128.png";
+import characterPaper from "./assets/new_png/char_paper_256.png";
+import characterRock from "./assets/new_png/char_rock_256.png";
+import characterScissors from "./assets/new_png/char_scissors_256.png";
 import { useGlobalAudioPlayer } from "react-use-audio-player";
 
 import mainMenuMusic from "./assets/audio/music_1.mp3";
@@ -35,12 +35,10 @@ const App = () => {
     const characters = [characterRock, characterPaper, characterScissors];
     const { load, play, fade, seek } = useGlobalAudioPlayer();
 
-
-    const [currentContainersState, toggleContainersState] = useReducer();
-    // containerReducer,
-    // initialContainersState
-
     const [isWindowSmall, setWindowSmall] = useState(false);
+
+    const roundCountOptions = [0, 1, 3, 5];
+    const [roundCount, setRoundCount] = useState(0);
 
     const songs = [mainMenuMusic, onGameMusic];
     const [songIndex, setSongIndex] = useState(0);
@@ -163,9 +161,12 @@ const App = () => {
         } else {
             setCharacter(character + 1);
         }
-
-        console.log("current character selected: " + character);
     };
+
+    const toggleRoundCount = () => {
+        // cycle through round count options
+        roundCount == 3 ? setRoundCount(0) : setRoundCount(roundCount + 1);
+    };  
 
     const mainMenu = {
         toggleMainMenu: toggleMainMenu,
@@ -218,6 +219,7 @@ const App = () => {
                                 />
                             </div>
                         </div>
+
                         <Button
                             classes_img={`main_menu_button`}
                             image={playButton}
@@ -230,6 +232,18 @@ const App = () => {
                             text="Play"
                             onClickFunction={toggleMainMenu}
                         />
+                        <Button
+                            classes_img={`main_menu_button`}
+                            classes_text={`round_count`}
+                            classes="round_count_button"
+                            image={playButton}
+                            text={`${
+                                roundCountOptions[roundCount] == 0
+                                    ? "Infinite"
+                                    : "best of " + roundCountOptions[roundCount]
+                            }`}
+                            onClickFunction={toggleRoundCount}
+                        />
                     </div>
                 </div>
             ) : (
@@ -237,6 +251,7 @@ const App = () => {
                     mainFunction={mainMenu}
                     characterSelectedMain={character}
                     difficultySelected={difficulty}
+                    bestOfSelected={roundCountOptions[roundCount]}
                     eel={eel}
                 />
             )}

@@ -9,6 +9,7 @@ import portraitRock from "./assets/new_png/portrait_rock.png";
 import portraitPaper from "./assets/new_png/portrait_paper.png";
 import portraitScissors from "./assets/new_png/portrait_scissors.png";
 
+import resumeMainMenuButton from "./assets/new_png/button4.png";
 import countdownSet from "./assets/new_png/countdown_set.png";
 import stagePlayer from "./assets/new_png/stage_player.png";
 import countdownGo from "./assets/new_png/countdown_go.png";
@@ -35,12 +36,22 @@ import AIPlayer from "./AIPlayer.js";
 import useSound from "use-sound";
 import Button from "./Button.js";
 import Pause from "./Pause.js";
+
+import winAITitle from "./assets/new_png/win_AI.png";
+import winPlayerTitle from "./assets/new_png/win_player.png";
+
+import winAICharacter from "./assets/new_png/char_ai_256.png";
+import winPlayerRockCharacter from "./assets/new_png/char_rock_256.png";
+import winPlayerPaperCharacter from "./assets/new_png/char_paper_256.png";
+import winPlayerScissorsCharacter from "./assets/new_png/char_scissors_256.png";
+
 import chalk from "chalk";
 
 const OnGame = ({
     mainFunction,
     characterSelectedMain,
     difficultySelected,
+    bestOfSelected,
     eel,
 }) => {
     const weight = 640;
@@ -55,6 +66,7 @@ const OnGame = ({
 
     let character = characterSelectedMain;
     const difficulty = difficultySelected;
+    const bestOf = bestOfSelected;
 
     const payoffMatrix = {
         rock: { rock: 0, paper: -1, scissors: 1 },
@@ -64,6 +76,7 @@ const OnGame = ({
 
     const [playerAttackHistory, setPlayerAttackHistory] = useState([]);
     const [scores, setScores] = useState([0, 0]); // [player, ai]
+    const [winner, setWinner] = useState(""); // [player, ai
 
     const [gameStart, setGameStart] = useState(false);
     const gameStartRef = useRef();
@@ -472,8 +485,8 @@ const OnGame = ({
         countdownContainer.style.top = `${randomY}%`;
 
         /* offsetHeight is a technique used to make sure that the initial styles are applied
-      before the subsequent styles with transitions, ensuring that the transition effect starts
-      from the correct state. It's a workaround to deal with the way browsers optimize style changes. - chatGPT */
+            before the subsequent styles with transitions, ensuring that the transition effect starts
+            from the correct state. It's a workaround to deal with the way browsers optimize style changes. - chatGPT */
         countdownContainer.offsetHeight;
 
         countdownContainer.style.transition = `transform 400ms, left 200ms, top 200ms, opacity 200ms cubic-bezier( 0.79, 0.33, 0.14, 0.53 )`;
@@ -482,6 +495,26 @@ const OnGame = ({
         countdownContainer.style.left = "50%";
         countdownContainer.style.top = "50%";
     }, [playerAttack, aiAttack]);
+
+    useEffect(() => {
+        if (bestOf === 0) {
+            return;
+        }
+
+        console.log("scores: " + scores[0]);
+        console.log("scores: " + scores[1]);
+        console.log("Best of: " + bestOf);
+
+        if (scores[0] >= bestOf) {
+            console.log("You win!");
+            setWinner("player");
+            togglePauseGame();
+        } else if (scores[1] >= bestOf) {
+            console.log("You lose!");
+            setWinner("AI");
+            togglePauseGame();
+        }
+    }, [scores]);
 
     const togglePauseGame = () => {
         setIsPaused((prevIsPaused) => !prevIsPaused);
@@ -508,17 +541,19 @@ const OnGame = ({
                 isPaused ? "overlay-active" : "overlay-deactive"
             }`}
         >
-            {isPaused ? (
+            {isPaused && winner === "" ? (
                 <Pause
                     pauseFunctions={pauseFunctions}
                     currentConfThresh={confThreshSelected}
                 />
             ) : (
-                <Button
-                    image={pauseButton}
-                    onClickFunction={togglePauseGame}
-                    classes_img="pause_button"
-                />
+                winner === "" && (
+                    <Button
+                        image={pauseButton}
+                        onClickFunction={togglePauseGame}
+                        classes_img="pause_button"
+                    />
+                )
             )}
 
             <div className="nameplate_container">
@@ -580,7 +615,9 @@ const OnGame = ({
                 ></video>
                 <canvas id="canvas" width={weight} height={height}></canvas>
 
-                <img className="stage_player" src={stagePlayer} alt="" />
+                <div className="stage_player_container">
+                    <img className="stage_player" src={stagePlayer} alt="" />
+                </div>
 
                 <div className="stage_ai_container">
                     <img className="stage_ai" src={stageAI} alt="" />
@@ -613,6 +650,70 @@ const OnGame = ({
                     />
                 )}
             </div>
+
+            {winner !== "" && (
+                <div
+                    className={`title_card ${
+                        winner === "AI" ? "title_card_AI" : "title_card_player"
+                    } additional_class`}
+                >
+                    {winner === "AI" ? (
+                        <img
+                            className="title_card_character"
+                            src={winAICharacter}
+                            alt=""
+                        />
+                    ) : (
+                        <img
+                            className="title_card_character"
+                            src={
+                                character === 0
+                                    ? winPlayerRockCharacter
+                                    : character === 1
+                                    ? winPlayerPaperCharacter
+                                    : winPlayerScissorsCharacter
+                            }
+                            alt=""
+                        />
+                    )}
+
+                    <div className="image_and_button_container">
+                        <img
+                            className="title_card_image"
+                            src={winner === "AI" ? winAITitle : winPlayerTitle}
+                            alt=""
+                        />
+
+                        <div className="buttons_container">
+                            <Button
+                                classes="main_menu_button_gameover"
+                                image={resumeMainMenuButton}
+                                text={"Main Menu"}
+                                onClickFunction={() => {
+                                    pauseFunctions.togglePauseGame();
+                                    pauseFunctions.toggleMainMenu();
+                                    setWinner("");
+                                    setScores([0, 0]);
+                                }}
+                                classes_img=""
+                            />
+
+                            <Button
+                                classes="play_again_button_gameover"
+                                image={resumeMainMenuButton}
+                                text={"Play Again"}
+                                onClickFunction={() => {
+                                    pauseFunctions.togglePauseGame();
+                                    // pauseFunctions.toggleMainMenu();
+                                    setWinner("");
+                                    setScores([0, 0]);
+                                }}
+                                classes_img=""
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

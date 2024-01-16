@@ -142,7 +142,7 @@ img {
 body {
     width: 100vw;
     height: 100vh;
-    
+
     overflow: hidden;
 }
 
@@ -296,7 +296,36 @@ body {
     align-items: center;
     position: relative;
 
+    #webcam {
+        transform: scale(0.85);
+        transform-origin: 0 0;
+        border-top-right-radius: 40px;
+        border-bottom-right-radius: 40px;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        // background-color: aqua;
+    }
+
+    #canvas {
+        transform: scale(0.85);
+        transform-origin: top left;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        // background-color: red;
+    }
+
     .stage_player {
+        width: 640px;
+        height: 480px;
+        // transform: scale(0.85);
+        transform-origin: top left;
+    }
+
+    .stage_player_container {
         @include first_appear_animation("right", 1500px);
         position: absolute;
         top: 0;
@@ -310,6 +339,7 @@ body {
     .stage_ai_container {
         @include first_appear_animation("left", 1500px);
         position: absolute;
+        top: 0;
         right: 0;
         width: 640px;
         height: 480px;
@@ -318,6 +348,7 @@ body {
     }
 
     .stage_ai {
+        position: absolute;
         width: 640px;
         height: 480px;
         transform-origin: top right;
@@ -347,21 +378,6 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     transform-origin: center center;
-}
-
-#webcam {
-    transform: scale(0.85);
-    transform-origin: 0 0;
-    border-top-right-radius: 40px;
-    border-bottom-right-radius: 40px;
-}
-
-#canvas {
-    transform: scale(0.85);
-    transform-origin: top left;
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
 .background-container {
@@ -431,20 +447,12 @@ body {
 
     z-index: 1;
     display: flex;
-    // width: 100%;
     height: 180px;
     justify-content: space-between;
-    // position: relative;
 
     .player_1_nameplate_container,
     .player_2_nameplate_container {
-        // display: flex;
-        // flex-direction: column;
-        // justify-content: space-between;
-        // align-items: center;
         position: relative;
-        // width: 50%;
-        // height: 100%;
     }
 
     .player_1_username,
@@ -475,8 +483,6 @@ body {
         top: 8px;
         width: auto;
         height: 115px;
-        // transform: scale(0.75);
-        // scale: 0.75;
         object-fit: cover;
     }
 
@@ -594,9 +600,14 @@ body {
         justify-content: center;
         align-items: center;
     }
+
     .main_menu_button {
         display: flex;
         cursor: pointer;
+    }
+
+    .round_count {
+        font-size: 25px;
     }
 }
 
@@ -618,6 +629,17 @@ $max-width-window-4: 770px;
 
 @media screen and (max-width: $max-width-window-1) {
     .stage_container {
+        #webcam,
+        #canvas {
+            top: -80px;
+            left: -10px;
+        }
+
+        .stage_player_container {
+            top: -80px;
+            left: -10px;
+        }
+
         .stage_player {
             top: -80px;
             left: -10px;
@@ -641,7 +663,6 @@ $max-width-window-4: 770px;
         }
     }
 }
-
 
 @media screen and (max-width: $max-width-window-4) {
     .App {
@@ -689,6 +710,14 @@ $max-width-window-4: 770px;
             }
         }
     }
+
+    .countdown_container {
+        img {
+            // add shadow to image
+            filter: drop-shadow(-9px 18px 3px #000000);
+        }
+    }
+
     .nameplate_container {
         .player_1_nameplate,
         .player_2_nameplate {
@@ -750,8 +779,6 @@ $max-width-window-4: 770px;
 }
 
 @media screen and (min-width: calc($max-width-window-4 + 1px)) and (max-width: $max-width-window-3) {
-    
-    
     .nameplate_container {
         .player_1_portrait,
         .player_2_portrait {
@@ -780,6 +807,7 @@ $max-width-window-4: 770px;
 
         .score_container {
             font-size: 50px;
+            height: 130px;
 
             .score {
                 min-width: 1.5em;
@@ -788,17 +816,27 @@ $max-width-window-4: 770px;
     }
 }
 
-@media screen and (max-width: $max-width-window-3) {
-}
-
 @media screen and (min-width: 0px) and (max-width: $max-width-window-2) {
     .menu_and_title_container {
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
 
         .main_title {
+            // width: 200px;
+            height: 300px;
+            padding-right: 100px;
             padding-left: 0;
             transform: rotate(90deg);
+        }
+
+        .button_container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .button_image {
+                padding: 3px;
+            }
         }
     }
 
@@ -806,12 +844,80 @@ $max-width-window-4: 770px;
         order: 2;
         width: 500px;
         height: 400px;
+        margin-bottom: 300px;
     }
 
     .main_title {
         order: 1;
         width: 200px;
         height: auto;
+    }
+}
+
+.title_card_AI {
+    .title_card_character {
+        left: 1200px;
+    }
+    
+    .image_and_button_container {
+        left: 200px;
+    }
+}
+
+.title_card_player {
+    .title_card_character {
+        left: 200px;
+    }
+    
+    .image_and_button_container {
+        left: 800px;
+    }
+}
+
+.title_card {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    
+    .title_card_character {
+        z-index: 9999;
+        position: absolute;
+        top: 500px;
+        scale: 2.5;
+        // opacity: .5;
+    }
+    
+    .image_and_button_container {
+        position: absolute;
+        top: 100px;
+
+        display: flex;
+        flex-direction: column;
+
+        .title_card_image {
+            // position: absolute;
+            top: 50px;
+            left: 800px;
+            // transform: translate(-50%, -50%);
+    
+            // object-fit: cover;
+            z-index: 10002;
+            scale: 0.9;
+        }
+    
+        .buttons_container {
+            .button_container {
+                display: flex;
+                justify-content: center;
+                position: relative;
+
+                &.main_menu_button_gameover, 
+                &.play_again_button_gameover {
+                }
+                
+            }
+        }
     }
 }
 
@@ -890,7 +996,7 @@ $max-width-window-4: 770px;
     // position: absolute;
     // top: 50%;
     // left: 10%;
-    padding: 30px 0 30px;
+    padding: 30px 0 0 0;
 
     flex-direction: row;
     justify-content: space-evenly;
