@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useReducer } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import player1Nameplate from "./assets/new_png/nameplate_player.png";
 import handScissors from "./assets/new_png/RPS_hand_scissors.png";

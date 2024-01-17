@@ -43,11 +43,20 @@ const App = () => {
 
     const songs = [mainMenuMusic, onGameMusic, loseMusic];
     const [songIndex, setSongIndex] = useState(0);
-
+    const choices = ["rock", "paper", "scissors"]
     const eel = window["eel"];
     eel.set_host("ws://localhost:8888");
 
     const defaultVolume = 0.05;
+
+    const animateTabTitleColor = () => {
+        setInterval(() => {
+            const randomRPS = Math.floor(Math.random() * 3);
+            document.title = choices[randomRPS];
+        }, 1000); // Change color every 1000 milliseconds (1 second)
+    };
+
+    animateTabTitleColor();
 
     const playBGMusic = () => {
         const music = load(songs[songIndex], {
