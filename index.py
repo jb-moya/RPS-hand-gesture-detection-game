@@ -64,7 +64,7 @@ def detect(encoded_img, confThreshSelected, width, height):
     #     print(bounding_box_info)
     #     return bounding_box_info
     
-    # # return bounding_box_info
+    # return bounding_box_info
 
     # os.system('cls')
     # print("--- Nothing ---")

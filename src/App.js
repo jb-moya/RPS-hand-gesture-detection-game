@@ -38,25 +38,25 @@ const App = () => {
 
     const [isWindowSmall, setWindowSmall] = useState(false);
 
-    const roundCountOptions = [0, 1, 3, 5];
+    const roundCountOptions = [0, 1, 3, 5, 10];
     const [roundCount, setRoundCount] = useState(0);
 
     const songs = [mainMenuMusic, onGameMusic, loseMusic];
     const [songIndex, setSongIndex] = useState(0);
-    const choices = ["rock", "paper", "scissors"]
+    const choices = ["rock", "paper", "scissors"];
     const eel = window["eel"];
     eel.set_host("ws://localhost:8888");
 
     const defaultVolume = 0.05;
 
-    const animateTabTitleColor = () => {
-        setInterval(() => {
-            const randomRPS = Math.floor(Math.random() * 3);
-            document.title = choices[randomRPS];
-        }, 1000); // Change color every 1000 milliseconds (1 second)
-    };
+    // const animateTabTitleColor = () => {
+    //     setInterval(() => {
+    //         const randomRPS = Math.floor(Math.random() * 3);
+    //         document.title = choices[randomRPS];
+    //     }, 1000); // Change color every 1000 milliseconds (1 second)
+    // };
 
-    animateTabTitleColor();
+    // animateTabTitleColor();
 
     const playBGMusic = () => {
         const music = load(songs[songIndex], {
@@ -169,8 +169,9 @@ const App = () => {
     };
 
     const toggleRoundCount = () => {
-        // cycle through round count options
-        roundCount == 3 ? setRoundCount(0) : setRoundCount(roundCount + 1);
+        roundCount == roundCountOptions.length - 1
+            ? setRoundCount(0)
+            : setRoundCount(roundCount + 1);
     };
 
     const mainMenu = {
@@ -234,24 +235,30 @@ const App = () => {
                         />
                         <Button
                             classes_img={`main_menu_button`}
+                            classes_text={`round_count`}
+                            classes="round_count_button"
+                            image={playButton}
+                            text={`${
+                                roundCountOptions[roundCount] == 0
+                                    ? "endless"
+                                    : roundCountOptions[roundCount] == 1
+                                    ? "first to     " +
+                                      roundCountOptions[roundCount] +
+                                      " pt"
+                                    : "first to     " +
+                                      roundCountOptions[roundCount] +
+                                      " pts"
+                            }`}
+                            onClickFunction={toggleRoundCount}
+                        />
+                        <Button
+                            classes_img={`main_menu_button`}
                             image={playButton}
                             text="Play"
                             onClickFunction={() => {
                                 toggleMainMenu();
                                 changeSong(1);
                             }}
-                        />
-                        <Button
-                            classes_img={`main_menu_button`}
-                            classes_text={`round_count`}
-                            classes="round_count_button"
-                            image={playButton}
-                            text={`${
-                                roundCountOptions[roundCount] == 0
-                                    ? "Infinite"
-                                    : "best of " + roundCountOptions[roundCount]
-                            }`}
-                            onClickFunction={toggleRoundCount}
                         />
                     </div>
                 </div>

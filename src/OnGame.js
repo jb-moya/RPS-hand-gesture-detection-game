@@ -658,7 +658,7 @@ const OnGame = ({
                 <div
                     className={`title_card ${
                         winner === "AI" ? "title_card_AI" : "title_card_player"
-                    } additional_class`}
+                    }`}
                 >
                     {winner === "AI" ? (
                         <img
@@ -690,6 +690,7 @@ const OnGame = ({
                         <div className="buttons_container">
                             <Button
                                 classes="main_menu_button_gameover"
+                                classes_text="button_text_gameover"
                                 image={resumeMainMenuButton}
                                 text={"Main Menu"}
                                 onClickFunction={() => {
@@ -704,6 +705,7 @@ const OnGame = ({
 
                             <Button
                                 classes="play_again_button_gameover"
+                                classes_text="button_text_gameover"
                                 image={resumeMainMenuButton}
                                 text={"Play Again"}
                                 onClickFunction={() => {
