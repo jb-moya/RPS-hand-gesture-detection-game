@@ -17,6 +17,7 @@ import { useGlobalAudioPlayer } from "react-use-audio-player";
 
 import mainMenuMusic from "./assets/audio/music_1.mp3";
 import onGameMusic from "./assets/audio/music_2.mp3";
+import loseMusic from "./assets/audio/music_3.mp3";
 import StringEffect from "./StringEffect.js";
 
 import chalk from "chalk";
@@ -40,7 +41,7 @@ const App = () => {
     const roundCountOptions = [0, 1, 3, 5];
     const [roundCount, setRoundCount] = useState(0);
 
-    const songs = [mainMenuMusic, onGameMusic];
+    const songs = [mainMenuMusic, onGameMusic, loseMusic];
     const [songIndex, setSongIndex] = useState(0);
 
     const eel = window["eel"];
@@ -66,12 +67,8 @@ const App = () => {
         playBGMusic();
     }, [songIndex]);
 
-    const changeSong = () => {
-        if (songIndex == 0) {
-            setSongIndex(1);
-        } else {
-            setSongIndex(0);
-        }
+    const changeSong = (index) => {
+        setSongIndex(index);
     };
 
     const handleResize = debounce(() => {
@@ -144,7 +141,6 @@ const App = () => {
 
     const toggleMainMenu = () => {
         setMainMenuActive(!mainMenuActive);
-        changeSong();
     };
 
     const toggleDifficulty = () => {
@@ -166,10 +162,11 @@ const App = () => {
     const toggleRoundCount = () => {
         // cycle through round count options
         roundCount == 3 ? setRoundCount(0) : setRoundCount(roundCount + 1);
-    };  
+    };
 
     const mainMenu = {
         toggleMainMenu: toggleMainMenu,
+        changeSong: changeSong,
     };
 
     return (
@@ -230,7 +227,10 @@ const App = () => {
                             classes_img={`main_menu_button`}
                             image={playButton}
                             text="Play"
-                            onClickFunction={toggleMainMenu}
+                            onClickFunction={() => {
+                                toggleMainMenu();
+                                changeSong(1);
+                            }}
                         />
                         <Button
                             classes_img={`main_menu_button`}

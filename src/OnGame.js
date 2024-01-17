@@ -507,10 +507,12 @@ const OnGame = ({
 
         if (scores[0] >= bestOf) {
             console.log("You win!");
+            mainFunction.changeSong(0);
             setWinner("player");
             togglePauseGame();
         } else if (scores[1] >= bestOf) {
             console.log("You lose!");
+            mainFunction.changeSong(2);
             setWinner("AI");
             togglePauseGame();
         }
@@ -532,6 +534,7 @@ const OnGame = ({
     const pauseFunctions = {
         togglePauseGame: togglePauseGame,
         changeConfThresh: changeConfThresh,
+        changeSong: mainFunction.changeSong,
         toggleMainMenu: mainFunction.toggleMainMenu,
     };
 
@@ -692,6 +695,7 @@ const OnGame = ({
                                 onClickFunction={() => {
                                     pauseFunctions.togglePauseGame();
                                     pauseFunctions.toggleMainMenu();
+                                    mainFunction.changeSong(0);
                                     setWinner("");
                                     setScores([0, 0]);
                                 }}
@@ -704,7 +708,7 @@ const OnGame = ({
                                 text={"Play Again"}
                                 onClickFunction={() => {
                                     pauseFunctions.togglePauseGame();
-                                    // pauseFunctions.toggleMainMenu();
+                                    mainFunction.changeSong(1);
                                     setWinner("");
                                     setScores([0, 0]);
                                 }}
