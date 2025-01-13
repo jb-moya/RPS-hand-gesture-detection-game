@@ -2,24 +2,17 @@
 
 ## Install
 
-You’ll need to have Python >= 3.6, Eel, pyinstaller.
-
-```
-$ python3 -m pip install eel
-$ python3 -m pip install pyinstaller
-```
+You’ll need to have Python >= 3.6
+pip install Eel, pyinstaller, and ultralytics.
 
 ## Develop on GUI
 
 ```
-$ yarn install
-$ yarn start
+$ npm install
 ```
 
-## Build as GUI App
+## Run
 
 ```
-$ yarn build
+$ npm start
 ```
-
-check `dist/react-eel-app`
