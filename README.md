@@ -1,4 +1,4 @@
-# React Eel GUI App
+# Rock, Paper, Scissors hand gesture detection game
 
 ## Install
 
