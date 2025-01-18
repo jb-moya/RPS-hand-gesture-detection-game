@@ -7,7 +7,7 @@ An interactive, React-based web game that uses the YOLOv8 AI model for real-time
 
 ![Demo](public/demo.gif)
 
-# Rock, Paper, Scissors hand gesture detection game
+# 👊 Rock, ✋ Paper, ✌️ Scissors hand gesture detection game
 
 ## Install
 
