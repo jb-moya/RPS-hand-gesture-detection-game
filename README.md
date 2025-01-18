@@ -1,3 +1,7 @@
+# Here’s a quick demonstration of the game in action:
+
+![Demo](public/demo.gif)
+
 # Rock, Paper, Scissors hand gesture detection game
 
 ## Install
